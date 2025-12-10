@@ -1,12 +1,20 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { CSidenav } from './components/ui/c-sidenav/c-sidenav';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, CSidenav],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('tienda-adm-front');
+  paths = ['/admin/login', '/admin/register']
+  currentPath = ''
+
+  constructor(router: Router) {
+    router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) this.currentPath = e.url
+    })
+  }
 }

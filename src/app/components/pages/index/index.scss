@@ -1,0 +1,29 @@
+section {
+  display: flex;
+  padding: 20px;
+  width: 100%;
+  justify-content: space-around;
+}
+
+section div {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  width: 540px;
+}
+
+section div h3 {
+  margin-bottom: 20px;
+}
+
+section div h1 {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+section div div .line {
+  width: 4px;
+  height: 6px;
+  padding: 0;
+  background-color: red;
+}

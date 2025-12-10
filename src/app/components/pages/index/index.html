@@ -1,1 +1,14 @@
-<p>index works!</p>
+<section>
+  <div>
+    <h3>Facturación diaria</h3>
+    <h1>1256.56€</h1>
+  </div>
+  <div>
+    <h3>Ordenadores ocupados</h3>
+    <div>
+      @for (item of availabilityArray; track $index) {
+      <div class="line"></div>
+      }
+    </div>
+  </div>
+</section>

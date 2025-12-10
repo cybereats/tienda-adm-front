@@ -1,0 +1,8 @@
+<div class="app l-flex">
+  @if (!paths.includes(currentPath)) {
+  <c-sidenav></c-sidenav>
+  }
+  <div class="app app__item">
+    <router-outlet></router-outlet>
+  </div>
+</div>
