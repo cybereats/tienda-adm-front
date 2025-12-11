@@ -12,6 +12,7 @@ export type ChartOptions = {
   chart: ApexChart;
   xaxis: ApexXAxis;
   title: ApexTitleSubtitle;
+  colors: string[];
 };
 
 @Component({
@@ -32,9 +33,10 @@ export class CGraphicArea {
           data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
         }
       ],
+      colors: ["#7600A8"],
       chart: {
-        height: 350,
-        width: 600,
+        height: "100%",
+        width: "100%",
         type: "area"
       },
       title: {

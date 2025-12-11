@@ -14,6 +14,7 @@ export type ChartOptions = {
   title: ApexTitleSubtitle;
   stroke: ApexStroke;
   fill: ApexFill;
+  colors: string[];
 };
 
 @Component({
@@ -34,9 +35,10 @@ export class CGraphic {
           data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
         }
       ],
+      colors: ["#7600A8"],
       chart: {
-        height: 350,
-        width: 600,
+        height: "100%",
+        width: "100%",
         type: "bar"
       },
       title: {

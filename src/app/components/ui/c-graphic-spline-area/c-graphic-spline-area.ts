@@ -19,6 +19,7 @@ export type ChartOptions = {
   tooltip: ApexTooltip;
   dataLabels: ApexDataLabels;
   title: ApexTitleSubtitle;
+  colors: string[];
 };
 
 @Component({
@@ -43,9 +44,10 @@ export class CGraphicSplineArea {
           data: [11, 32, 45, 32, 34, 52, 41]
         }
       ],
+      colors: ["#00f514ff", "#cc0000ff"],
       chart: {
-        height: 350,
-        width: 600,
+        height: "100%",
+        width: "100%",
         type: "area"
       },
       dataLabels: {
