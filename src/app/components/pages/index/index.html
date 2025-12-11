@@ -1,14 +1,106 @@
-<section>
-  <div>
-    <h3>Facturación diaria</h3>
-    <h1>1256.56€</h1>
+<section class="dashboard">
+  <div class="dashboard__card">
+    <h3 class="dashboard__subtitle">Facturación diaria</h3>
+    <h1 class="dashboard__value">1256.56€</h1>
   </div>
-  <div>
-    <h3>Ordenadores ocupados</h3>
-    <div>
+  <div class="dashboard__card">
+    <h3 class="dashboard__subtitle">Facturación diaria</h3>
+    <h1 class="dashboard__value">1256.56€</h1>
+  </div>
+  <div class="dashboard__availability">
+    <h3 class="dashboard__subtitle">Ordenadores ocupados</h3>
+    <!-- <div class="dashboard__availability-lines">
       @for (item of availabilityArray; track $index) {
-      <div class="line"></div>
+      <div [class]="'dashboard__line ' + (item == true ? 'dashboard__line--active' : '')"></div>
       }
-    </div>
+    </div> -->
+  </div>
+</section>
+
+<h1 class="index__title">Resumen diario</h1>
+
+<section class="summary">
+  <div class="summary__chart">
+    GRAFICA
+  </div>
+</section>
+
+<h1 class="index__title">Reservas recientes</h1>
+
+<section class="reservations">
+  <div class="reservations__table">
+
+    <table class="reservations__table-element">
+
+      <tbody>
+        <tr>
+          <td class="reservations__cell">#B23L1</td>
+          <td class="reservations__cell">Enrique Gracia</td>
+          <td class="reservations__cell">2h</td>
+          <td class="reservations__cell">15/07/2025</td>
+        </tr>
+
+        <tr>
+          <td class="reservations__cell">#B23L1</td>
+          <td class="reservations__cell">Enrique Gracia</td>
+          <td class="reservations__cell">2h</td>
+          <td class="reservations__cell">15/07/2025</td>
+        </tr>
+
+        <tr>
+          <td class="reservations__cell">#B23L1</td>
+          <td class="reservations__cell">Enrique Gracia</td>
+          <td class="reservations__cell">2h</td>
+          <td class="reservations__cell">15/07/2025</td>
+        </tr>
+
+        <tr>
+          <td class="reservations__cell">#B23L1</td>
+          <td class="reservations__cell">Enrique Gracia</td>
+          <td class="reservations__cell">2h</td>
+          <td class="reservations__cell">15/07/2025</td>
+        </tr>
+
+
+        <tr>
+          <td class="reservations__cell">#B23L1</td>
+          <td class="reservations__cell">Enrique Gracia</td>
+          <td class="reservations__cell">2h</td>
+          <td class="reservations__cell">15/07/2025</td>
+        </tr>
+
+
+        <tr>
+          <td class="reservations__cell">#B23L1</td>
+          <td class="reservations__cell">Enrique Gracia</td>
+          <td class="reservations__cell">2h</td>
+          <td class="reservations__cell">15/07/2025</td>
+        </tr>
+
+
+        <tr>
+          <td class="reservations__cell">#B23L1</td>
+          <td class="reservations__cell">Enrique Gracia</td>
+          <td class="reservations__cell">2h</td>
+          <td class="reservations__cell">15/07/2025</td>
+        </tr>
+
+
+        <tr>
+          <td class="reservations__cell">#B23L1</td>
+          <td class="reservations__cell">Enrique Gracia</td>
+          <td class="reservations__cell">2h</td>
+          <td class="reservations__cell">15/07/2025</td>
+        </tr>
+
+
+        <tr>
+          <td class="reservations__cell">#B23L1</td>
+          <td class="reservations__cell">Enrique Gracia</td>
+          <td class="reservations__cell">2h</td>
+          <td class="reservations__cell">15/07/2025</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
