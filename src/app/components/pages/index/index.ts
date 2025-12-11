@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './index.scss',
 })
 export class Index {
-  availability = 18;
-  totalAvailability = 30;
+  availability = 1;
+  totalAvailability = 43;
 
   availabilityArray: Array<boolean> = [];
 

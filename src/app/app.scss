@@ -1,7 +1,10 @@
 .app {
-  // margin-left: 220px;
+  overflow: hidden;
+  height: 100vh;
 }
 
-.app.app__item {
+.app .app__item {
   flex: 1;
+  overflow-y: auto;
+  padding: 20px;
 }
