@@ -1,0 +1,14 @@
+.form {
+    --form-bg-color-1: var(--cyb-sys-color-purple-3);
+    --form-bg-color-2: var(--cyb-sys-color-blue-1);
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right,
+            var(--form-bg-color-1),
+            var(--form-bg-color-2));
+
+}
