@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { CGraphic } from '../../ui/c-graphic/c-graphic';
 
 @Component({
   selector: 'app-index',
-  imports: [],
+  imports: [CGraphic],
   templateUrl: './index.html',
   styleUrl: './index.scss',
 })
