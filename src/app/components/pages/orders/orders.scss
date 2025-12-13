@@ -1,0 +1,158 @@
+.orders {
+    --orders-padding: var(--cyb-sys-padding-5);
+    --orders-gap: var(--cyb-sys-margin-5);
+    --orders-title-size: var(--cyb-sys-font-size-7);
+    --orders-title-weight: var(--cyb-sys-font-weight-7);
+
+    --orders-nav-font-size: var(--cyb-sys-font-size-4);
+    --orders-nav-radius: var(--cyb-sys-border-radius-4);
+
+    --orders-header-bg: var(--cyb-sys-color-gray-8);
+    --orders-header-color: var(--cyb-sys-color-gray-3);
+    --orders-header-weight: var(--cyb-sys-font-weight-6);
+    --orders-border-color: var(--cyb-sys-color-white-4);
+
+    --orders-input-bg: var(--cyb-sys-color-white-9);
+
+    --orders-cell-padding: var(--cyb-sys-padding-5);
+    --orders-cell-color: var(--cyb-sys-color-gray-5);
+
+    --orders-btn-bg: var(--cyb-sys-color-blue-7);
+    --orders-btn-color: var(--cyb-sys-color-white-9);
+    --orders-btn-padding: var(--cyb-sys-padding-3) var(--cyb-sys-padding-5);
+    --orders-btn-radius: var(--cyb-sys-border-radius-4);
+    --orders-btn-hover-bg: var(--cyb-sys-color-blue-8);
+
+    --orders-search-padding-right: var(--cyb-sys-padding-12);
+    --orders-search-btn-right: var(--cyb-sys-margin-5);
+    --orders-search-btn-padding: var(--cyb-sys-padding-3);
+
+
+
+    width: 100%;
+    gap: var(--orders-gap);
+    padding: var(--orders-padding);
+
+    &__title {
+        font-size: var(--orders-title-size);
+        font-weight: var(--orders-title-weight);
+        margin-bottom: var(--orders-gap);
+    }
+
+    &__controls {
+        color: var(--orders-header-color);
+        justify-content: space-between;
+        margin-bottom: var(--orders-gap);
+        gap: var(--orders-gap);
+    }
+
+    &__search-wrapper {
+        flex: 1;
+        position: relative;
+    }
+
+    &__search-input,
+    &__select,
+    &__date-input {
+        padding: var(--cyb-sys-padding-5);
+        border-radius: var(--orders-nav-radius);
+        border: 1px solid var(--orders-border-color);
+        background-color: var(--orders-input-bg);
+        color: var(--orders-cell-color);
+        font-size: var(--orders-nav-font-size);
+        outline: none;
+
+        &:focus {
+            border-color: var(--orders-btn-bg);
+        }
+    }
+
+    &__search-input {
+        width: 100%;
+        padding-right: var(--orders-search-padding-right);
+    }
+
+    &__search-btn {
+        position: absolute;
+        right: var(--orders-search-btn-right);
+        background: none;
+        border: none;
+        color: var(--orders-border-color);
+        cursor: pointer;
+        padding: var(--orders-search-btn-padding);
+
+        &:hover {
+            color: var(--orders-btn-bg);
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &__filters {
+        gap: var(--orders-gap);
+    }
+
+    &__filters {
+        gap: var(--orders-gap);
+    }
+
+
+
+    &__link {
+        color: var(--orders-btn-bg);
+        text-decoration: none;
+        font-weight: 600;
+
+        &:hover {
+            text-decoration: underline;
+            color: var(--orders-btn-hover-bg);
+        }
+    }
+
+
+
+    &__btn {
+        background-color: var(--orders-btn-bg);
+        color: var(--orders-btn-color);
+        padding: var(--orders-btn-padding);
+        border: none;
+        border-radius: var(--orders-btn-radius);
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: var(--orders-btn-hover-bg);
+        }
+
+        &--view {
+            background-color: transparent;
+            border: 1px solid var(--orders-btn-bg);
+            color: var(--orders-btn-bg);
+
+            &:hover {
+                background-color: var(--orders-btn-bg);
+                color: var(--orders-btn-color);
+            }
+        }
+    }
+
+
+    @media (max-width: 768px) {
+        &__controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        &__filters {
+            flex-direction: column;
+
+            .orders__select,
+            .orders__date-input {
+                width: 100%;
+            }
+        }
+    }
+}
