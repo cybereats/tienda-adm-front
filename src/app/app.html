@@ -2,7 +2,7 @@
   @if (!paths.includes(currentPath)) {
   <c-sidenav></c-sidenav>
   }
-  <div class="app__item">
+  <div [class]="`app__item ${paths.includes(currentPath) ? 'app__item--no-padding' : ''}`">
     <router-outlet></router-outlet>
   </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'c-sidenav',
@@ -17,4 +18,14 @@ export class CSidenav {
     { name: 'Ordenadores', icon: 'computers.png', route: '/admin/computers' },
     { name: 'Incidencias', icon: 'reports.png', route: '/admin/reports' },
   ]
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/admin/login']);
+  }
 }

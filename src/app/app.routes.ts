@@ -7,15 +7,17 @@ import { Reports } from './components/pages/reports/reports';
 import { Computers } from './components/pages/computers/computers';
 import { Login } from './components/pages/login/login';
 import { Register } from './components/pages/register/register';
+import { authGuard } from '../guards/auth.guard';
+import { guestGuard } from '../guards/guest.guard';
 
 export const routes: Routes = [
-    { path: 'admin', component: Index },
-    { path: 'admin/stats', component: Stats },
-    { path: 'admin/orders', component: Orders },
-    { path: 'admin/products', component: Products },
-    { path: 'admin/reports', component: Reports },
-    { path: 'admin/computers', component: Computers },
-    { path: 'admin/login', component: Login },
-    { path: 'admin/register', component: Register },
-    { path: '**', redirectTo: 'admin' }
+    { path: 'admin', component: Index, canActivate: [authGuard] },
+    { path: 'admin/stats', component: Stats, canActivate: [authGuard] },
+    { path: 'admin/orders', component: Orders, canActivate: [authGuard] },
+    { path: 'admin/products', component: Products, canActivate: [authGuard] },
+    { path: 'admin/reports', component: Reports, canActivate: [authGuard] },
+    { path: 'admin/computers', component: Computers, canActivate: [authGuard] },
+    { path: 'admin/login', component: Login, canActivate: [guestGuard] },
+    { path: 'admin/register', component: Register, canActivate: [guestGuard] },
+    { path: '**', redirectTo: 'admin/login' }
 ];
