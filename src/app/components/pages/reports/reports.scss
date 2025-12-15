@@ -1,0 +1,165 @@
+.reports {
+    --reports-padding: var(--cyb-sys-padding-5);
+    --reports-gap: var(--cyb-sys-margin-5);
+    --reports-title-size: var(--cyb-sys-font-size-7);
+    --reports-title-weight: var(--cyb-sys-font-weight-7);
+
+    --reports-nav-font-size: var(--cyb-sys-font-size-4);
+    --reports-nav-radius: var(--cyb-sys-border-radius-4);
+
+    --reports-header-bg: var(--cyb-sys-color-gray-8);
+    --reports-header-color: var(--cyb-sys-color-gray-3);
+    --reports-header-weight: var(--cyb-sys-font-weight-6);
+    --reports-border-color: var(--cyb-sys-color-white-4);
+
+    --reports-input-bg: var(--cyb-sys-color-white-9);
+
+    --reports-cell-padding: var(--cyb-sys-padding-5);
+    --reports-cell-color: var(--cyb-sys-color-gray-5);
+
+    --reports-btn-bg: var(--cyb-sys-color-blue-7);
+    --reports-btn-color: var(--cyb-sys-color-white-9);
+    --reports-btn-padding: var(--cyb-sys-padding-3) var(--cyb-sys-padding-5);
+    --reports-btn-radius: var(--cyb-sys-border-radius-4);
+    --reports-btn-hover-bg: var(--cyb-sys-color-blue-8);
+
+    --reports-search-padding-right: var(--cyb-sys-padding-12);
+    --reports-search-btn-right: var(--cyb-sys-margin-5);
+    --reports-search-btn-padding: var(--cyb-sys-padding-3);
+
+
+
+    width: 100%;
+    gap: var(--reports-gap);
+    padding: var(--reports-padding);
+
+    &__summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--reports-gap);
+        margin-bottom: var(--reports-gap);
+    }
+
+
+
+    &__title {
+        font-size: var(--reports-title-size);
+        font-weight: var(--reports-title-weight);
+        margin-bottom: var(--reports-gap);
+    }
+
+    &__controls {
+        color: var(--reports-header-color);
+        justify-content: space-between;
+        margin-bottom: var(--reports-gap);
+        gap: var(--reports-gap);
+    }
+
+    &__search-wrapper {
+        flex: 1;
+        position: relative;
+    }
+
+    &__search-input,
+    &__select,
+    &__date-input {
+        padding: var(--cyb-sys-padding-5);
+        border-radius: var(--reports-nav-radius);
+        border: 1px solid var(--reports-border-color);
+        background-color: var(--reports-input-bg);
+        color: var(--reports-cell-color);
+        font-size: var(--reports-nav-font-size);
+        outline: none;
+
+        &:focus {
+            border-color: var(--reports-btn-bg);
+        }
+    }
+
+    &__search-input {
+        width: 100%;
+        padding-right: var(--reports-search-padding-right);
+    }
+
+    &__search-btn {
+        position: absolute;
+        right: var(--reports-search-btn-right);
+        background: none;
+        border: none;
+        color: var(--reports-border-color);
+        cursor: pointer;
+        padding: var(--reports-search-btn-padding);
+
+        &:hover {
+            color: var(--reports-btn-bg);
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &__filters {
+        gap: var(--reports-gap);
+    }
+
+
+
+
+
+    &__link {
+        color: var(--reports-btn-bg);
+        text-decoration: none;
+        font-weight: 600;
+
+        &:hover {
+            text-decoration: underline;
+            color: var(--reports-btn-hover-bg);
+        }
+    }
+
+
+
+    &__btn {
+        background-color: var(--reports-btn-bg);
+        color: var(--reports-btn-color);
+        padding: var(--reports-btn-padding);
+        border: none;
+        border-radius: var(--reports-btn-radius);
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: var(--reports-btn-hover-bg);
+        }
+
+        &--view {
+            background-color: transparent;
+            border: 1px solid var(--reports-btn-bg);
+            color: var(--reports-btn-bg);
+
+            &:hover {
+                background-color: var(--reports-btn-bg);
+                color: var(--reports-btn-color);
+            }
+        }
+    }
+
+
+    @media (max-width: 768px) {
+        &__controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        &__filters {
+            flex-direction: column;
+
+            .reports__select,
+            .reports__date-input {
+                width: 100%;
+            }
+        }
+    }
+}

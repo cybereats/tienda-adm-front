@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild, Input, OnChanges, SimpleChanges } from "@angular/core";
 
 import {
   ChartComponent,
@@ -16,7 +16,6 @@ export type ChartOptions = {
   chart: ApexChart;
   xaxis: ApexXAxis;
   stroke: ApexStroke;
-  tooltip: ApexTooltip;
   dataLabels: ApexDataLabels;
   title: ApexTitleSubtitle;
   colors: string[];
@@ -32,52 +31,53 @@ export class CGraphicSplineArea {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions: ChartOptions;
 
+  @Input() series: ApexAxisChartSeries = [];
+  @Input() categories: string[] = [];
+  @Input() colors: string[] = ["#00f514ff", "#cc0000ff"];
+  @Input() height: string = "100%";
+
   constructor() {
     this.chartOptions = {
-      series: [
-        {
-          name: "Compras",
-          data: [31, 40, 28, 51, 42, 109, 100]
-        },
-        {
-          name: "Ventas",
-          data: [11, 32, 45, 32, 34, 52, 41]
-        }
-      ],
-      colors: ["#00f514ff", "#cc0000ff"],
+      series: [],
+      colors: [],
       chart: {
         height: "100%",
         width: "100%",
-        type: "area"
+        type: "area",
+        toolbar: {
+          show: false
+        }
       },
       dataLabels: {
         enabled: false
       },
       stroke: {
         curve: "smooth"
-
       },
       xaxis: {
-        type: "datetime",
-        categories: [
-          "2018-09-19T00:00:00.000Z",
-          "2018-09-19T01:30:00.000Z",
-          "2018-09-19T02:30:00.000Z",
-          "2018-09-19T03:30:00.000Z",
-          "2018-09-19T04:30:00.000Z",
-          "2018-09-19T05:30:00.000Z",
-          "2018-09-19T06:30:00.000Z"
-        ]
+        type: "category",
+        categories: []
       },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm"
-        }
-      },
+
       title: {
         text: ""
       }
     };
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.chartOptions = {
+      ...this.chartOptions,
+      series: this.series,
+      colors: this.colors,
+      xaxis: {
+        ...this.chartOptions.xaxis,
+        categories: this.categories
+      },
+      chart: {
+        ...this.chartOptions.chart,
+        height: this.height
+      }
+    };
+  }
 }

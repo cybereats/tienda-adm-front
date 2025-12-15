@@ -1,1 +1,68 @@
-<p>reports works!</p>
+<section class="reports l-flex l-flex__direction--column">
+    <h1 class="reports__title">Reportes</h1>
+
+    <div class="reports__summary">
+        <c-summary-card title="Total Reportes" [value]="stats.total"></c-summary-card>
+        <c-summary-card title="Pendientes" [value]="stats.pending" variant="orange"></c-summary-card>
+        <c-summary-card title="En Proceso" [value]="stats.inProgress" variant="blue"></c-summary-card>
+        <c-summary-card title="Resueltos" [value]="stats.resolved" variant="green"></c-summary-card>
+    </div>
+
+
+
+    <div class="reports__controls l-flex l-flex__align-items--center">
+        <div class="reports__search-wrapper l-flex l-flex__align-items--center">
+            <input type="text" class="reports__search-input" placeholder="Buscar por ID, Usuario...">
+            <button class="reports__search-btn l-flex l-flex__align-items--center l-flex__justify-content--center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                        d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="reports__filters l-flex">
+            <select class="reports__select">
+                <option value="">Todos los estados</option>
+                <option value="pending">Pendiente</option>
+                <option value="in-progress">En Proceso</option>
+                <option value="resolved">Resuelto</option>
+            </select>
+
+            <input type="date" class="reports__date-input">
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr class="table__row table__row--header">
+                <th class="table__header-cell">ID Reporte</th>
+                <th class="table__header-cell">Usuario</th>
+                <th class="table__header-cell">PC</th>
+                <th class="table__header-cell">Asunto</th>
+                <th class="table__header-cell">Estado</th>
+                <th class="table__header-cell">Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (report of paginatedReports; track report.id) {
+            <tr class="table__row">
+                <td class="table__cell">
+                    <a routerLink="/admin/reports" class="reports__link">{{ report.reportId }}</a>
+                </td>
+                <td class="table__cell">{{ report.user }}</td>
+                <td class="table__cell">{{ report.pc }}</td>
+                <td class="table__cell">{{ report.issue }}</td>
+                <td class="table__cell">
+                    <c-status [status]="report.status" (statusChange)="report.status = $event; calculateStats()"
+                        [options]="statusOptions"></c-status>
+                </td>
+                <td class="table__cell">{{ report.date }}</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <c-pagination [currentPage]="currentPage" [totalPages]="totalPages" route="/admin/reports">
+    </c-pagination>
+</section>

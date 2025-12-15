@@ -11,5 +11,51 @@ import { CGraphicSplineArea } from "../../ui/c-graphic-spline-area/c-graphic-spl
   styleUrl: './stats.scss',
 })
 export class Stats {
+  barSeries = [
+    {
+      name: "Ventas",
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+    }
+  ];
+  barCategories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
+  barColors = ["#7600A8"];
 
+  lineSeries = [
+    {
+      name: "Usuarios",
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+    }
+  ];
+  lineCategories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
+  lineColors = ["#7600A8"];
+
+  areaSeries = [
+    {
+      name: "Ventas",
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+    }
+  ];
+  areaCategories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
+  areaColors = ["#7600A8"];
+
+  splineSeries = [
+    {
+      name: "Compras",
+      data: [31, 40, 28, 51, 42, 109, 100]
+    },
+    {
+      name: "Ventas",
+      data: [11, 32, 45, 32, 34, 52, 41]
+    }
+  ];
+  splineCategories = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul"
+  ];
+  splineColors = ["#00f514ff", "#cc0000ff"];
 }
