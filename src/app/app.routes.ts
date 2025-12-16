@@ -18,6 +18,6 @@ export const routes: Routes = [
     { path: 'admin/reports', component: Reports, canActivate: [authGuard] },
     { path: 'admin/computers', component: Computers, canActivate: [authGuard] },
     { path: 'admin/login', component: Login, canActivate: [guestGuard] },
-    { path: 'admin/register', component: Register, canActivate: [guestGuard] },
+    // { path: 'admin/register', component: Register, canActivate: [guestGuard] },
     { path: '**', redirectTo: 'admin/login' }
 ];
