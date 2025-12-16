@@ -6,7 +6,9 @@ import {
   ApexXAxis,
   ApexTitleSubtitle,
   ApexStroke,
-  ApexFill
+  ApexFill,
+  ApexDataLabels,
+  ApexTooltip
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -16,8 +18,12 @@ export type ChartOptions = {
   title: ApexTitleSubtitle;
   stroke: ApexStroke;
   fill: ApexFill;
+  dataLabels: ApexDataLabels;
   colors: string[];
+  tooltip?: ApexTooltip;
 };
+
+export type ChartType = "bar" | "area" | "line";
 
 @Component({
   selector: 'c-graphic',
@@ -33,6 +39,10 @@ export class CGraphic implements OnChanges {
   @Input() categories: string[] = [];
   @Input() colors: string[] = ["#7600A8"];
   @Input() height: string = "100%";
+  @Input() type: ChartType = "bar";
+  @Input() curve: "smooth" | "straight" = "smooth";
+  @Input() showDataLabels: boolean = true;
+  @Input() showToolbar: boolean = true;
 
   constructor() {
     this.chartOptions = {
@@ -43,7 +53,7 @@ export class CGraphic implements OnChanges {
         width: "100%",
         type: "bar",
         toolbar: {
-          show: false
+          show: true
         }
       },
       title: {
@@ -53,7 +63,11 @@ export class CGraphic implements OnChanges {
         colors: []
       },
       stroke: {
+        curve: "smooth",
         colors: []
+      },
+      dataLabels: {
+        enabled: true
       },
       xaxis: {
         type: "category",
@@ -71,7 +85,11 @@ export class CGraphic implements OnChanges {
         colors: this.colors
       },
       stroke: {
+        curve: this.curve,
         colors: this.colors
+      },
+      dataLabels: {
+        enabled: this.showDataLabels
       },
       xaxis: {
         ...this.chartOptions.xaxis,
@@ -79,7 +97,11 @@ export class CGraphic implements OnChanges {
       },
       chart: {
         ...this.chartOptions.chart,
-        height: this.height
+        height: this.height,
+        type: this.type,
+        toolbar: {
+          show: this.showToolbar
+        }
       }
     };
   }

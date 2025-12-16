@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product, ProductsResponse } from '../../../../models/product.model';
 import { ProductService } from '../../../../services/product.service';
+import { CSearchBar } from '../../ui/c-search-bar/c-search-bar';
+import { CPagination } from '../../ui/c-pagination/c-pagination';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule, CSearchBar, CPagination],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
@@ -24,7 +26,7 @@ export class Products {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.currentPage = params['page'] ? parseInt(params['page']) : 1;
+      this.currentPage = params['page'] ? Number.parseInt(params['page']) : 1;
     });
     this.loadProducts();
   }
@@ -47,37 +49,5 @@ export class Products {
 
   get totalPages() {
     return Math.ceil(this.products.length / this.itemsPerPage) || 1;
-  }
-
-  get pages(): number[] {
-    const total = this.totalPages;
-    const current = this.currentPage;
-    const range: number[] = [];
-
-    let start: number;
-    let end: number;
-
-    if (current === 1) {
-      start = 1;
-      end = Math.min(3, total);
-    } else if (current === total) {
-      start = Math.max(1, total - 2);
-      end = total;
-    } else {
-      start = current - 1;
-      end = current + 1;
-    }
-
-    for (let i = start; i <= end; i++) {
-      range.push(i);
-    }
-
-    return range;
-  }
-
-  changePage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-    }
   }
 }

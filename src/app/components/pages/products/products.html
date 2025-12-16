@@ -1,16 +1,8 @@
-<section class="products l-flex l-flex__direction--column">
+<section class="products l-flex l-flex__direction-column">
   <h1 class="products__title">Productos</h1>
 
-  <div class="products__controls l-flex l-flex__align-items--center">
-    <div class="products__search-wrapper l-flex l-flex__align-items--center">
-      <input type="text" class="products__search-input" placeholder="Buscar por nombre, ID...">
-      <button class="products__search-btn l-flex l-flex__align-items--center l-flex__justify-content--center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-        </svg>
-      </button>
-    </div>
+  <div class="products__controls l-flex l-flex__align-center">
+    <c-search-bar class="l-flex__flex-1" placeholder="Buscar por nombre, ID..."></c-search-bar>
 
     <div class="products__filters l-flex">
 
@@ -44,40 +36,6 @@
     </tbody>
   </table>
 
-  <div class="table__pagination">
-    <button routerLink="/admin/products" [queryParams]="{page: 1}" class="table__pagination-btn"
-      [disabled]="currentPage === 1" (click)="changePage(1)">
-      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
-        <path
-          d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
-      </svg>
-    </button>
-    <button routerLink="/admin/products" [queryParams]="{page: currentPage - 1}" class="table__pagination-btn"
-      [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
-      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
-        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
-      </svg>
-    </button>
-    <div class="table__pagination-numbers">
-      @for (page of pages; track $index) {
-      <button routerLink="/admin/products" [queryParams]="{page: page}" class="table__pagination-number"
-        [class.active]="currentPage === page" (click)="changePage(page)">
-        {{ page }}
-      </button>
-      }
-    </div>
-    <button routerLink="/admin/products" [queryParams]="{page: currentPage + 1}" class="table__pagination-btn"
-      [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
-      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
-        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
-      </svg>
-    </button>
-    <button routerLink="/admin/products" [queryParams]="{page: totalPages}" class="table__pagination-btn"
-      [disabled]="currentPage === totalPages" (click)="changePage(totalPages)">
-      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
-        <path
-          d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
-      </svg>
-    </button>
-  </div>
+  <c-pagination [currentPage]="currentPage" [totalPages]="totalPages" route="/admin/products">
+  </c-pagination>
 </section>

@@ -1,0 +1,34 @@
+<div class="c-computer-card l-flex l-flex__direction-column">
+    <div class="c-computer-card__image-wrapper">
+        <img [src]="computer.image" [alt]="computer.label" class="c-computer-card__image">
+    </div>
+
+    <div class="c-computer-card__content l-flex l-flex__direction-column l-flex__flex-1 l-flex__gap-3">
+        <h2 class="c-computer-card__title">{{ computer.label }}</h2>
+        <span class="c-computer-card__slug">{{ computer.slug }}</span>
+
+        <div class="c-computer-card__details l-flex l-flex__direction-column l-flex__gap-2">
+            <div class="c-computer-card__detail l-flex l-flex__justify-space-between">
+                <span class="c-computer-card__label">Categoría:</span>
+                <span class="c-computer-card__value">{{ computer.categoryPC }}</span>
+            </div>
+            <div class="c-computer-card__detail l-flex l-flex__justify-space-between">
+                <span class="c-computer-card__label">Operativo desde:</span>
+                <span class="c-computer-card__value">{{ computer.workingSince }}</span>
+            </div>
+        </div>
+
+        <p class="c-computer-card__specs">{{ computer.specs }}</p>
+
+        <div class="c-computer-card__actions l-flex l-flex__gap-3">
+            <button (click)="onEdit()"
+                class="c-computer-card__btn c-computer-card__btn--modify l-flex l-flex__align-center l-flex__justify-center l-flex__flex-1">
+                Modificar
+            </button>
+            <button (click)="onDelete()"
+                class="c-computer-card__btn c-computer-card__btn--delete l-flex l-flex__align-center l-flex__justify-center l-flex__flex-1">
+                Eliminar
+            </button>
+        </div>
+    </div>
+</div>

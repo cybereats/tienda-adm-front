@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { CStatus } from '../../ui/c-status/c-status';
 import { CPagination } from '../../ui/c-pagination/c-pagination';
+import { CSearchBar } from '../../ui/c-search-bar/c-search-bar';
+import { CFilterSelect, FilterOption } from '../../ui/c-filter-select/c-filter-select';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [RouterLink, FormsModule, CommonModule, CStatus, CPagination],
+  imports: [RouterLink, FormsModule, CommonModule, CStatus, CPagination, CSearchBar, CFilterSelect],
   templateUrl: './orders.html',
   styleUrl: './orders.scss',
 })
@@ -21,6 +23,12 @@ export class Orders {
     price: `${(Math.random() * 100 + 20).toFixed(2)}€`,
     date: new Date(2025, 11, Math.floor(Math.random() * 30) + 1).toLocaleDateString()
   }));
+
+  statusFilterOptions: FilterOption[] = [
+    { value: 'pending', label: 'Pendiente' },
+    { value: 'completed', label: 'Completado' },
+    { value: 'shipped', label: 'Enviado' }
+  ];
 
   statusOptions = [
     { value: 'pending', label: 'Pendiente', color: 'orange' },

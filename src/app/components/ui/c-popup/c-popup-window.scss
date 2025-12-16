@@ -1,0 +1,79 @@
+:host {
+    // -- Definición de variables CSS para el popup, inspiradas en la estética de la app.
+    // -- Puedes ajustarlas para que coincidan con tu paleta de colores global.
+    --popup-bg: #2a2a3e;
+    --popup-text-color: #e0e0e0;
+    --popup-title-color: #ffffff;
+    --popup-border-color: #4a4a6a;
+    --popup-input-bg: #3a3a52;
+    --popup-input-label: #a0a0c0;
+
+    --color-primary: #6a11cb;
+    --color-warn: #d32f2f;
+    --color-warn-hover: #e57373;
+}
+
+.c-popup {
+    // -- Estilo base del contenedor del popup
+    background-color: var(--popup-bg);
+    color: var(--popup-text-color);
+    border-radius: 8px;
+    border: 1px solid var(--popup-border-color);
+    display: block; // Asegura que el mat-dialog-container no sobreescriba el fondo
+
+    &__title {
+        color: var(--popup-title-color);
+        border-bottom: 1px solid var(--popup-border-color);
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+
+        &--danger {
+            color: var(--color-warn);
+        }
+    }
+
+    &__content {
+        padding-top: 1rem;
+    }
+
+    &__form {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    &__form-field {
+
+        // -- Estilos para los campos de formulario de Angular Material
+        .mat-mdc-form-field-flex {
+            background-color: var(--popup-input-bg) !important;
+        }
+
+        .mat-mdc-floating-label {
+            color: var(--popup-input-label) !important;
+        }
+    }
+
+    &__data-row {
+        margin: 0.5rem 0;
+    }
+
+    &__data-key {
+        color: var(--popup-title-color);
+        text-transform: capitalize;
+    }
+
+    &__actions {
+        border-top: 1px solid var(--popup-border-color);
+        padding-top: 1rem !important; // Sobreescribe el padding de mat-dialog-actions
+        margin-top: 1.5rem;
+    }
+
+    &__button {
+        // Estilos para botones si es necesario
+
+        &--warn {
+            // Estilos específicos para el botón de advertencia
+        }
+    }
+}

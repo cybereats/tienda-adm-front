@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CGraphicLine } from './c-graphic-line';
+import { CPopup } from './c-popup';
 
-describe('CGraphicLine', () => {
-  let component: CGraphicLine;
-  let fixture: ComponentFixture<CGraphicLine>;
+describe('CPopup', () => {
+  let component: CPopup;
+  let fixture: ComponentFixture<CPopup>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CGraphicLine]
+      imports: [CPopup]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CGraphicLine);
+    fixture = TestBed.createComponent(CPopup);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

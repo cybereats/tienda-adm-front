@@ -1,1 +1,23 @@
-<p>computers works!</p>
+<section class="computers l-flex l-flex__direction-column">
+    <h1 class="computers__title">Ordenadores</h1>
+
+    <div class="computers__controls l-flex l-flex__align-center">
+        <c-search-bar class="l-flex__flex-1" placeholder="Buscar por nombre, categoría..."></c-search-bar>
+
+        <c-filter-select placeholder="Todas las categorías" [options]="categoryFilterOptions">
+        </c-filter-select>
+
+        <button class="computers__btn computers__btn--add" (click)="openCreateDialog()">
+            Añadir Ordenador
+        </button>
+    </div>
+
+    <div class="computers__grid">
+        @for (computer of paginatedComputers; track computer.id) {
+        <c-computer-card [computer]="computer" (edit)="openEditDialog(computer)" (delete)="openDeleteDialog(computer)"></c-computer-card>
+        }
+    </div>
+
+    <c-pagination [currentPage]="currentPage" [totalPages]="totalPages" route="/admin/computers">
+    </c-pagination>
+</section>

@@ -3,13 +3,15 @@ import { ActivatedRoute, RouterLink } from "@angular/router";
 import { CStatus } from '../../ui/c-status/c-status';
 import { CPagination } from '../../ui/c-pagination/c-pagination';
 import { CSummaryCard } from '../../ui/c-summary-card/c-summary-card';
+import { CSearchBar } from '../../ui/c-search-bar/c-search-bar';
+import { CFilterSelect, FilterOption } from '../../ui/c-filter-select/c-filter-select';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [RouterLink, FormsModule, CommonModule, CStatus, CPagination, CSummaryCard],
+  imports: [RouterLink, FormsModule, CommonModule, CStatus, CPagination, CSummaryCard, CSearchBar, CFilterSelect],
   templateUrl: './reports.html',
   styleUrl: './reports.scss',
 })
@@ -30,6 +32,12 @@ export class Reports {
     inProgress: 0,
     resolved: 0
   };
+
+  statusFilterOptions: FilterOption[] = [
+    { value: 'pending', label: 'Pendiente' },
+    { value: 'in-progress', label: 'En Proceso' },
+    { value: 'resolved', label: 'Resuelto' }
+  ];
 
   statusOptions = [
     { value: 'pending', label: 'Pendiente', color: 'orange' },

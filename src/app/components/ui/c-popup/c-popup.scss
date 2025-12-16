@@ -1,0 +1,70 @@
+.c-popup {
+    // -- Estilo base del contenedor del popup
+    // -- Se utilizan las variables globales de la aplicación para mantener la consistencia.
+    background-color: var(--cyb-sys-color-surface-container-high);
+    color: var(--cyb-sys-color-on-surface);
+    border-radius: 8px;
+    border: 1px solid var(--cyb-sys-color-outline-variant);
+    display: block; // Asegura que el mat-dialog-container no sobreescriba el fondo
+
+    &__title {
+        color: var(--popup-title-color);
+        border-bottom: 1px solid var(--popup-border-color);
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+
+        &--danger {
+            color: var(--cyb-sys-color-error);
+        }
+    }
+
+    &__content {
+        padding-top: 1rem;
+    }
+
+    &__form {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    &__form-field {
+
+        // -- Estilos para los campos de formulario de Angular Material
+        .mat-mdc-text-field-wrapper {
+            background-color: var(--cyb-sys-color-surface-container) !important;
+        }
+
+        .mat-mdc-floating-label {
+            color: var(--cyb-sys-color-on-surface-variant) !important;
+        }
+    }
+
+    &__data-row {
+        margin: 0.5rem 0;
+    }
+
+    &__data-key {
+        color: var(--cyb-sys-color-on-surface);
+        text-transform: capitalize;
+    }
+
+    &__actions {
+        border-top: 1px solid var(--cyb-sys-color-outline-variant);
+        padding-top: 1rem !important; // Sobreescribe el padding de mat-dialog-actions
+        margin-top: 1.5rem;
+    }
+
+    &__button {
+
+
+        &--warn {
+            // Estilos específicos para el botón de advertencia
+        }
+
+        &--primary {
+            background-color: var(--cyb-sys-color-blue-5) !important;
+            color: var(--cyb-sys-color-white-9) !important;
+        }
+    }
+}

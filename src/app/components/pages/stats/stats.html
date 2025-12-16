@@ -1,4 +1,4 @@
-<section class="stats l-flex l-flex__direction--column">
+<section class="stats l-flex l-flex__direction-column">
     <h1 class="stats__title">Estadísticas</h1>
 
     <div class="stats__grid">
@@ -12,22 +12,22 @@
         <div class="stats__card">
             <h3 class="stats__card-title">Usuarios Activos</h3>
             <div class="stats__card-body">
-                <c-graphic-line class="stats__graphic" [series]="lineSeries" [categories]="lineCategories"
-                    [colors]="lineColors"></c-graphic-line>
+                <c-graphic type="line" class="stats__graphic" [series]="lineSeries" [categories]="lineCategories"
+                    [curve]="'straight'" [colors]="lineColors"></c-graphic>
             </div>
         </div>
         <div class="stats__card">
             <h3 class="stats__card-title">Ventas Mensuales</h3>
             <div class="stats__card-body">
-                <c-graphic-area class="stats__graphic" [series]="areaSeries" [categories]="areaCategories"
-                    [colors]="areaColors"></c-graphic-area>
+                <c-graphic type="area" class="stats__graphic" [series]="areaSeries" [categories]="areaCategories"
+                    [colors]="areaColors"></c-graphic>
             </div>
         </div>
         <div class="stats__card">
             <h3 class="stats__card-title">Ingresos vs Costes</h3>
             <div class="stats__card-body">
-                <c-graphic-spline-area class="stats__graphic" [series]="splineSeries" [categories]="splineCategories"
-                    [colors]="splineColors"></c-graphic-spline-area>
+                <c-graphic type="area" [curve]="'smooth'" class="stats__graphic" [series]="splineSeries"
+                    [categories]="splineCategories" [colors]="splineColors" [showDataLabels]="false"></c-graphic>
             </div>
         </div>
     </div>
