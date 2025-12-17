@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   login(request: LoginRequest): Observable<AuthResponse> {
-    return this.httpService.post<AuthResponse>(`${this.authRoute}/login/admin`, request)
+    return this.httpService.post<AuthResponse>(`${this.authRoute}/login`, request)
   }
 
   verifyToken(): Observable<UserProfile> {
