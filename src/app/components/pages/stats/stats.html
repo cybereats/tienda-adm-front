@@ -3,21 +3,21 @@
 
     <div class="stats__grid">
         <div class="stats__card">
-            <h3 class="stats__card-title">Ventas Mensuales</h3>
+            <h3 class="stats__card-title">Ingresos Mensuales</h3>
             <div class="stats__card-body">
                 <c-graphic class="stats__graphic" [series]="barSeries" [categories]="barCategories"
                     [colors]="barColors"></c-graphic>
             </div>
         </div>
         <div class="stats__card">
-            <h3 class="stats__card-title">Usuarios Activos</h3>
+            <h3 class="stats__card-title">Usuarios Mensuales</h3>
             <div class="stats__card-body">
                 <c-graphic type="line" class="stats__graphic" [series]="lineSeries" [categories]="lineCategories"
                     [curve]="'straight'" [colors]="lineColors"></c-graphic>
             </div>
         </div>
         <div class="stats__card">
-            <h3 class="stats__card-title">Ventas Mensuales</h3>
+            <h3 class="stats__card-title">Reportes Mensuales</h3>
             <div class="stats__card-body">
                 <c-graphic type="area" class="stats__graphic" [series]="areaSeries" [categories]="areaCategories"
                     [colors]="areaColors"></c-graphic>

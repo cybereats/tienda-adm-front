@@ -16,3 +16,13 @@ export interface AuthResponse {
   expiresAt: string
   user: User
 }
+
+export interface UserProfile {
+  id: number;
+  name: string;
+  surname: string;
+  email: string;
+  bornDate: string;
+  username: string;
+  role: string;
+}

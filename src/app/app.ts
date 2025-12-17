@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { CSidenav } from './components/ui/c-sidenav/c-sidenav';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +10,6 @@ import { CSidenav } from './components/ui/c-sidenav/c-sidenav';
   styleUrl: './app.scss'
 })
 export class App {
+  readonly router = inject(Router)
   paths = ['/admin/login', '/admin/register']
-  currentPath = ''
-
-  constructor(router: Router) {
-    router.events.subscribe(e => {
-      if (e instanceof NavigationEnd) this.currentPath = e.url
-    })
-  }
 }

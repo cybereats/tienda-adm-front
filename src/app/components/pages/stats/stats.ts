@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CGraphic } from '../../ui/c-graphic/c-graphic';
+import { StatsService } from '../../../../services/stats.service';
 
 @Component({
   selector: 'app-stats',
@@ -8,51 +9,60 @@ import { CGraphic } from '../../ui/c-graphic/c-graphic';
   styleUrl: './stats.scss',
 })
 export class Stats {
-  barSeries = [
-    {
-      name: "Ventas",
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    }
-  ];
-  barCategories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
-  barColors = ["#7600A8"];
+  barSeries: any[] = [];
+  barCategories: string[] = [];
+  barColors: string[] = [];
 
-  lineSeries = [
-    {
-      name: "Usuarios",
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    }
-  ];
-  lineCategories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
-  lineColors = ["#7600A8"];
+  lineSeries: any[] = [];
+  lineCategories: string[] = [];
+  lineColors: string[] = [];
 
-  areaSeries = [
-    {
-      name: "Ventas",
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    }
-  ];
-  areaCategories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
-  areaColors = ["#7600A8"];
+  areaSeries: any[] = [];
+  areaCategories: string[] = [];
+  areaColors: string[] = [];
 
-  splineSeries = [
-    {
-      name: "Compras",
-      data: [31, 40, 28, 51, 42, 109, 100]
-    },
-    {
-      name: "Ventas",
-      data: [11, 32, 45, 32, 34, 52, 41]
-    }
-  ];
-  splineCategories = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul"
-  ];
-  splineColors = ["#00f514ff", "#cc0000ff"];
+  splineSeries: any[] = [];
+  splineCategories: string[] = [];
+  splineColors: string[] = [];
+
+  constructor(private statsService: StatsService) { }
+
+  ngOnInit() {
+    this.loadMonthlyIncome();
+    this.loadMonthlyUsers();
+    this.loadMonthlyReports();
+    this.loadIncomeVsCosts();
+  }
+
+  loadMonthlyIncome() {
+    this.statsService.getMonthlyIncome().subscribe(data => {
+      this.barSeries = data.series;
+      this.barCategories = data.categories;
+      this.barColors = data.colors;
+    });
+  }
+
+  loadMonthlyUsers() {
+    this.statsService.getMonthlyUsers().subscribe(data => {
+      this.lineSeries = data.series;
+      this.lineCategories = data.categories;
+      this.lineColors = data.colors;
+    });
+  }
+
+  loadMonthlyReports() {
+    this.statsService.getMonthlyReports().subscribe(data => {
+      this.areaSeries = data.series;
+      this.areaCategories = data.categories;
+      this.areaColors = data.colors;
+    });
+  }
+
+  loadIncomeVsCosts() {
+    this.statsService.getIncomeVsCosts().subscribe(data => {
+      this.splineSeries = data.series;
+      this.splineCategories = data.categories;
+      this.splineColors = data.colors;
+    });
+  }
 }

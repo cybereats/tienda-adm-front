@@ -1,26 +1,24 @@
 <section class="dashboard">
   <div class="dashboard__card">
-    <h3 class="dashboard__subtitle">Facturación diaria</h3>
-    <h1 class="dashboard__value">1256.56€</h1>
+    <h3 class="dashboard__subtitle">Ingresos Diarios</h3>
+    <h1 class="dashboard__value">{{ dailyIncome | currency }}</h1>
   </div>
   <div class="dashboard__card">
-    <h3 class="dashboard__subtitle">Facturación diaria</h3>
-    <h1 class="dashboard__value">1256.56€</h1>
+    <h3 class="dashboard__subtitle">Reservas Diarias</h3>
+    <h1 class="dashboard__value">{{ dailyBookings }}</h1>
   </div>
-  <div class="dashboard__availability">
-    <h3 class="dashboard__subtitle">Ordenadores ocupados</h3>
-    <!-- <div class="dashboard__availability-lines">
-      @for (item of availabilityArray; track $index) {
-      <div [class]="'dashboard__line ' + (item == true ? 'dashboard__line--active' : '')"></div>
-      }
-    </div> -->
+  <div class="dashboard__card">
+    <h3 class="dashboard__subtitle">Reservas Activas</h3>
+    <div class="l-flex l-flex__justify-between l-width-100">
+      <span class="dashboard__value">{{ activeBookings.occupied }}/{{ activeBookings.total }}</span>
+    </div>
   </div>
 </section>
 
-<h1 class="index__title">Resumen diario</h1>
+<h1 class="index__title">Ingresos por Hora (Hoy)</h1>
 
 <section class="summary">
-  <c-graphic class="summary__chart"></c-graphic>
+  <c-graphic class="summary__chart" [series]="barSeries" [categories]="barCategories" [colors]="barColors"></c-graphic>
 </section>
 
 <h1 class="index__title">Reservas recientes</h1>

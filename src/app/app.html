@@ -1,8 +1,8 @@
 <div class="app l-flex">
-  @if (!paths.includes(currentPath)) {
+  @if (!paths.includes(router.url)) {
   <c-sidenav></c-sidenav>
   }
-  <div [class]="`app__item ${paths.includes(currentPath) ? 'app__item--no-padding' : ''}`">
+  <div [class]="`app__item ${paths.includes(router.url) ? 'app__item--no-padding' : ''}`">
     <router-outlet></router-outlet>
   </div>
 </div>
