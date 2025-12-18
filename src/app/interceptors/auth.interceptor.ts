@@ -19,7 +19,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(authReq).pipe(
     catchError(error => {
       console.log('HTTP Error:', error.status, error.message)
-
       if (error.status === 401) {
         localStorage.removeItem('auth_token')
         authService.clearUser()

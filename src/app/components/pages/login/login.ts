@@ -35,18 +35,10 @@ export class Login {
     this.errorMessage = ''
 
     this.authService.login(this.loginForm.value).subscribe({
-      next: (response) => {
+      next: (response: any) => {
+        this.authService.setUser(response.user)
         this.authService.saveToken(response.token)
-        // this.authService.verifyToken().subscribe({
-        //   next: (user) => {
-        //     this.authService.setUser(user)
-        //     this.router.navigate(['/admin'])
-        //   },
-        //   error: () => {
-        //     this.isLoading = false
-        //     this.errorMessage = 'Error al verificar la sesión. Inténtalo de nuevo.'
-        //   }
-        // })
+        this.router.navigate(['/admin'])
       },
       error: (error) => {
         this.isLoading = false

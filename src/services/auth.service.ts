@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Observable, BehaviorSubject, timeout, catchError, of } from 'rxjs'
+import { Observable, BehaviorSubject, timeout, catchError, of, throwError } from 'rxjs'
 import { AuthResponse, LoginRequest, RegisterRequest, UserProfile } from '../models/auth.model'
 import { HTTPService } from './http.service'
 
@@ -10,6 +10,7 @@ export class AuthService {
   private readonly authRoute: string = '/api/auth'
   private userSubject = new BehaviorSubject<UserProfile | null>(null)
   public user$ = this.userSubject.asObservable()
+  private tokenVerified = false
 
   constructor(private httpService: HTTPService) { }
 
@@ -22,9 +23,20 @@ export class AuthService {
   }
 
   verifyToken(): Observable<UserProfile> {
+    if (this.tokenVerified) {
+      const user = this.getUser()
+      if (user) {
+        return of(user)
+      } else {
+        return throwError(() => new Error('Token not verified'))
+      }
+    }
+
+    this.tokenVerified = true
     return this.httpService.getById<UserProfile>(`${this.authRoute}/verify`).pipe(
       timeout(5000),
       catchError(error => {
+        this.tokenVerified = false
         console.log('Error verificando token:', error)
         throw error
       })
@@ -43,6 +55,10 @@ export class AuthService {
     this.userSubject.next(null)
   }
 
+  resetTokenVerification(): void {
+    this.tokenVerified = false
+  }
+
   saveToken(token: string): void {
     localStorage.setItem('auth_token', token)
   }
@@ -54,10 +70,8 @@ export class AuthService {
   logout(): void {
     this.clearUser()
     localStorage.removeItem('auth_token')
-  }
-
-  isAuthenticated(): boolean {
-    return this.getToken() !== null
+    this.tokenVerified = false
+    window.location.href = '/admin/login'
   }
 
   isAdmin(): boolean {
