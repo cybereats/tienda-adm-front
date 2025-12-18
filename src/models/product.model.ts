@@ -15,4 +15,8 @@ export interface Product {
 
 export interface ProductsResponse {
   data: Product[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages?: number;
 }

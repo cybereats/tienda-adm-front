@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 export class CPagination {
     @Input() currentPage: number = 1;
     @Input() totalPages: number = 1;
+    @Input() size: number = 10;
     @Input() route: string = '';
     @Input() queryParams: any = {};
 

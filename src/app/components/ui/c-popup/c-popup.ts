@@ -29,9 +29,13 @@ export class CPopup implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CPopup>,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public dialogData: { mode: 'create' | 'edit' | 'delete', data: any }
+    @Inject(MAT_DIALOG_DATA) public dialogData: {
+      mode: 'create' | 'edit' | 'delete',
+      data: any,
+      title?: string,
+      excludedFields?: string[]
+    }
   ) {
-    // Initialize formKeys and form in constructor
     if (this.dialogData.data) {
       this.formKeys = Object.keys(this.dialogData.data);
     }
@@ -39,13 +43,16 @@ export class CPopup implements OnInit {
   }
 
   ngOnInit(): void {
-    // Build the form controls based on the data keys
     if (this.dialogData.mode !== 'delete') {
       const controls: { [key: string]: any } = {};
+      const excluded = this.dialogData.excludedFields || [];
+
       this.formKeys.forEach(key => {
-        const value = this.dialogData.data[key];
-        const control = this.fb.control({ value: value, disabled: key === 'id' }, Validators.required);
-        controls[key] = control;
+        if (!excluded.includes(key)) {
+          const value = this.dialogData.data[key];
+          const control = this.fb.control({ value: value, disabled: key === 'id' }, Validators.required);
+          controls[key] = control;
+        }
       });
       this.form = this.fb.group(controls);
     }

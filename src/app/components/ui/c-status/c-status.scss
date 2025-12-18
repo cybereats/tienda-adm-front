@@ -19,18 +19,23 @@
     }
 
     &--green {
-        background-color: color-mix(in srgb, var(--cyb-sys-color-green-9), white 85%);
+        background-color: var(--cyb-sys-color-green-10);
         color: var(--cyb-sys-color-green-3);
     }
 
     &--blue {
-        background-color: color-mix(in srgb, var(--cyb-sys-color-blue-9), white 85%);
+        background-color: var(--cyb-sys-color-blue-10);
         color: var(--cyb-sys-color-blue-4);
     }
 
     &--red {
         background-color: var(--cyb-sys-color-red-9);
         color: var(--cyb-sys-color-red-3);
+    }
+
+    &--purple {
+        background-color: var(--cyb-sys-color-purple-10);
+        color: var(--cyb-sys-color-purple-4);
     }
 
     &--gray {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 
 @Injectable({
@@ -7,27 +7,22 @@ import { Observable } from 'rxjs'
 })
 
 export class HTTPService {
-  url: string = ''
+  url!: string;
 
-  constructor(private http: HttpClient) { }
-
-  getAll<T>(route: string): Observable<T[]> {
-    return this.http.get<T[]>(`${this.url}${route}`)
+  http = inject(HttpClient);
+  getAll<T>(page: number, size: number): Observable<T> {
+    return this.http.get<T>(this.url, { params: { page, size } });
   }
-
-  getById<T>(route: string): Observable<T> {
-    return this.http.get<T>(`${this.url}${route}`)
+  findById<T>(id: string): Observable<T> {
+    return this.http.get<T>(`${this.url}/${id}`);
   }
-
-  update<T>(route: string, newObject: T): Observable<T> {
-    return this.http.put<T>(`${this.url}${route}`, newObject)
+  post<T>(data: T): Observable<T> {
+    return this.http.post<T>(this.url, data);
   }
-
-  deleteById<T>(route: string): Observable<T> {
-    return this.http.delete<T>(`${this.url}${route}`)
+  put<T>(id: string, data: T): Observable<T> {
+    return this.http.put<T>(`${this.url}/${id}`, data);
   }
-
-  post<T>(route: string, body: any): Observable<T> {
-    return this.http.post<T>(`${this.url}${route}`, body)
+  delete<T>(id: string): Observable<T> {
+    return this.http.delete<T>(`${this.url}/${id}`);
   }
 }

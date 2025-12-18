@@ -1,8 +1,6 @@
 .orders {
     --orders-padding: var(--cyb-sys-padding-5);
     --orders-gap: var(--cyb-sys-margin-5);
-    --orders-title-size: var(--cyb-sys-font-size-7);
-    --orders-title-weight: var(--cyb-sys-font-weight-7);
 
     --orders-nav-font-size: var(--cyb-sys-font-size-4);
     --orders-nav-radius: var(--cyb-sys-border-radius-4);
@@ -27,17 +25,10 @@
     --orders-search-btn-right: var(--cyb-sys-margin-5);
     --orders-search-btn-padding: var(--cyb-sys-padding-3);
 
-
-
     width: 100%;
     gap: var(--orders-gap);
     padding: var(--orders-padding);
 
-    &__title {
-        font-size: var(--orders-title-size);
-        font-weight: var(--orders-title-weight);
-        margin-bottom: var(--orders-gap);
-    }
 
     &__controls {
         color: var(--orders-header-color);
@@ -105,14 +96,13 @@
         color: var(--orders-btn-bg);
         text-decoration: none;
         font-weight: 600;
+        font-family: var(--cyb-sys-font-slug);
 
         &:hover {
             text-decoration: underline;
             color: var(--orders-btn-hover-bg);
         }
     }
-
-
 
     &__btn {
         background-color: var(--orders-btn-bg);
@@ -138,7 +128,6 @@
             }
         }
     }
-
 
     @media (max-width: 768px) {
         &__controls {

@@ -14,11 +14,6 @@
   padding: var(--page-padding);
   gap: var(--page-gap);
 
-  &__title {
-    font-size: var(--page-title-size);
-    font-weight: var(--page-title-weight);
-    margin-bottom: var(--page-gap);
-  }
 
   &__controls {
     display: flex;
@@ -73,6 +68,30 @@
   &__filters {
     display: flex;
     gap: var(--page-gap);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--page-gap);
+  }
+
+  &__btn {
+    padding: var(--cyb-sys-padding-5);
+    border: none;
+    border-radius: var(--cyb-sys-border-radius-4);
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+
+    &--add {
+      background-color: var(--cyb-sys-color-green-5);
+      color: var(--cyb-sys-color-white-9);
+
+      &:hover {
+        background-color: var(--cyb-sys-color-green-3);
+      }
+    }
   }
 
   @media (max-width: 768px) {

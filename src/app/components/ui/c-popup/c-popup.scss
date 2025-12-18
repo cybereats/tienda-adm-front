@@ -1,11 +1,18 @@
 .c-popup {
-    // -- Estilo base del contenedor del popup
-    // -- Se utilizan las variables globales de la aplicación para mantener la consistencia.
-    background-color: var(--cyb-sys-color-surface-container-high);
-    color: var(--cyb-sys-color-on-surface);
+
+    --popup-bg: var(--cyb-sys-color-white-9);
+    --popup-text-color: var(--cyb-sys-color-black-1);
+    --popup-title-color: var(--cyb-sys-color-black-1);
+    --popup-title-danger-color: var(--cyb-sys-color-red-1);
+    --popup-border-color: var(--cyb-sys-color-black-1);
+    --popup-input-bg: var(--cyb-sys-color-white-9);
+    --popup-input-label: var(--cyb-sys-color-black-1);
+
+    background-color: var(--popup-bg);
+    color: var(--popup-text-color);
     border-radius: 8px;
-    border: 1px solid var(--cyb-sys-color-outline-variant);
-    display: block; // Asegura que el mat-dialog-container no sobreescriba el fondo
+    border: 1px solid var(--popup-border-color);
+    display: block;
 
     &__title {
         color: var(--popup-title-color);
@@ -14,7 +21,7 @@
         margin-bottom: 1rem;
 
         &--danger {
-            color: var(--cyb-sys-color-error);
+            color: var(--popup-title-danger-color);
         }
     }
 
@@ -32,11 +39,11 @@
 
         // -- Estilos para los campos de formulario de Angular Material
         .mat-mdc-text-field-wrapper {
-            background-color: var(--cyb-sys-color-surface-container) !important;
+            background-color: var(--popup-input-bg);
         }
 
         .mat-mdc-floating-label {
-            color: var(--cyb-sys-color-on-surface-variant) !important;
+            color: var(--popup-input-label);
         }
     }
 
@@ -45,26 +52,21 @@
     }
 
     &__data-key {
-        color: var(--cyb-sys-color-on-surface);
+        color: var(--popup-title-color);
         text-transform: capitalize;
     }
 
     &__actions {
-        border-top: 1px solid var(--cyb-sys-color-outline-variant);
-        padding-top: 1rem !important; // Sobreescribe el padding de mat-dialog-actions
+        border-top: 1px solid var(--popup-border-color);
+        padding-top: 1rem;
         margin-top: 1.5rem;
     }
 
     &__button {
 
 
-        &--warn {
-            // Estilos específicos para el botón de advertencia
-        }
+        &--warn {}
 
-        &--primary {
-            background-color: var(--cyb-sys-color-blue-5) !important;
-            color: var(--cyb-sys-color-white-9) !important;
-        }
+        &--primary {}
     }
 }

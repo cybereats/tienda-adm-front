@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../../../services/auth.service';
 
@@ -19,10 +19,9 @@ export class CSidenav {
     { name: 'Incidencias', icon: 'reports.png', route: '/admin/reports' },
   ]
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) { }
+  authService = inject(AuthService);
+  router = inject(Router);
+
 
   logout(): void {
     this.authService.logout();

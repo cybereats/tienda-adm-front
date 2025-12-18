@@ -1,8 +1,6 @@
 .reports {
     --reports-padding: var(--cyb-sys-padding-5);
     --reports-gap: var(--cyb-sys-margin-5);
-    --reports-title-size: var(--cyb-sys-font-size-7);
-    --reports-title-weight: var(--cyb-sys-font-weight-7);
 
     --reports-nav-font-size: var(--cyb-sys-font-size-4);
     --reports-nav-radius: var(--cyb-sys-border-radius-4);
@@ -27,8 +25,6 @@
     --reports-search-btn-right: var(--cyb-sys-margin-5);
     --reports-search-btn-padding: var(--cyb-sys-padding-3);
 
-
-
     width: 100%;
     gap: var(--reports-gap);
     padding: var(--reports-padding);
@@ -40,13 +36,6 @@
         margin-bottom: var(--reports-gap);
     }
 
-
-
-    &__title {
-        font-size: var(--reports-title-size);
-        font-weight: var(--reports-title-weight);
-        margin-bottom: var(--reports-gap);
-    }
 
     &__controls {
         color: var(--reports-header-color);
@@ -104,10 +93,6 @@
         gap: var(--reports-gap);
     }
 
-
-
-
-
     &__link {
         color: var(--reports-btn-bg);
         text-decoration: none;
@@ -118,8 +103,6 @@
             color: var(--reports-btn-hover-bg);
         }
     }
-
-
 
     &__btn {
         background-color: var(--reports-btn-bg);
@@ -145,7 +128,6 @@
             }
         }
     }
-
 
     @media (max-width: 768px) {
         &__controls {

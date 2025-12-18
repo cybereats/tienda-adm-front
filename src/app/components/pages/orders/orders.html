@@ -1,5 +1,5 @@
 <section class="orders l-flex l-flex__direction-column">
-    <h1 class="orders__title">Pedidos</h1>
+    <h1 class="orders__title c-title">Pedidos</h1>
 
     <div class="orders__controls l-flex l-flex__align-center">
         <c-search-bar class="l-flex__flex-1" placeholder="Buscar por nombre, ID..."></c-search-bar>
@@ -23,22 +23,23 @@
             </tr>
         </thead>
         <tbody>
-            @for (order of paginatedOrders; track order.id) {
+            @for (order of orders; track order.id) {
             <tr class="table__row">
                 <td class="table__cell">
-                    <a routerLink="/admin/orders" class="orders__link">{{ order.orderId }}</a>
+                    <a routerLink="/admin/orders" class="orders__link">{{ order.id }}</a>
                 </td>
-                <td class="table__cell">{{ order.customer }}</td>
+                <td class="table__cell">{{ order.user.name }}</td>
                 <td class="table__cell">
-                    <c-status [(status)]="order.status" [options]="statusOptions"></c-status>
+                    <c-status [status]="order.status" (statusChange)="updateOrderStatus(order, $event)"
+                        [options]="statusOptions"></c-status>
                 </td>
-                <td class="table__cell">{{ order.price }}</td>
-                <td class="table__cell">{{ order.date }}</td>
+                <td class="table__cell">{{ order.totalPrice | currency:'EUR' }}</td>
+                <td class="table__cell">{{ order.createdAt }}</td>
             </tr>
             }
         </tbody>
     </table>
 
-    <c-pagination [currentPage]="currentPage" [totalPages]="totalPages" route="/admin/orders">
+    <c-pagination [currentPage]="currentPage" [totalPages]="totalPages" [size]="size" route="/admin/orders">
     </c-pagination>
 </section>

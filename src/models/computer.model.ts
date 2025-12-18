@@ -6,5 +6,21 @@ export interface Computer {
     specs: string;
     workingSince: string;
     image: string;
-    categoryPC: string;
+    categoryPCResponse: CategoryPC;
+}
+
+export interface ComputerResponse {
+    data: Computer[];
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages?: number; // Optional since backend doesn't return it
+
+}
+
+
+export interface CategoryPC {
+    id: number;
+    label: string;
+    slug: string;
 }

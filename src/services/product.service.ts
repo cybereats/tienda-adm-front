@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Product, ProductsResponse } from '../models/product.model';
+import { Product, ProductsResponse, CategoryProduct } from '../models/product.model';
 import { HTTPService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
-  private readonly productsRoute: string = '/api/products';
+export class ProductService extends HTTPService {
+  override url = '/api/products';
 
-  constructor(private httpService: HTTPService) { }
+  generateSlug(label: string): string {
+    return label.toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '');
+  }
 
-  getProducts(): Observable<ProductsResponse> {
-    return this.httpService.getAll<any>(this.productsRoute) as unknown as Observable<ProductsResponse>;
+  getCategoryBySlug(slug: string): Observable<CategoryProduct> {
+    return this.http.get<CategoryProduct>(`/api/category-products/${slug}`);
   }
 }

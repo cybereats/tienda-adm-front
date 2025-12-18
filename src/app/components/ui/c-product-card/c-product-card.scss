@@ -1,4 +1,4 @@
-.c-computer-card {
+.c-product-card {
     --card-bg: var(--cyb-sys-color-white-9);
     --card-radius: var(--cyb-sys-border-radius-4);
     --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -22,42 +22,30 @@
     box-shadow: var(--card-shadow);
     overflow: hidden;
 
-
-    &__image-wrapper {
-        position: relative;
-        height: 200px;
-        background-color: var(--cyb-sys-color-gray-9);
-    }
-
-    &__image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
     &__content {
         padding: var(--card-padding);
-
-
     }
 
     &__title {
         margin: 0;
     }
 
+    &__price {
+
+        font-weight: var(--cyb-sys-font-weight-7);
+        color: var(--cyb-sys-color-blue-7);
+    }
+
     &__slug {
+        font-size: var(--cyb-sys-font-size-3);
+        color: var(--text-secondary);
         font-family: var(--cyb-sys-font-slug);
     }
 
     &__details {
-
         margin: var(--cyb-sys-margin-3) 0;
     }
 
-    &__detail {
-
-        font-size: var(--cyb-sys-font-size-3);
-    }
 
     &__label {
         color: var(--text-secondary);
@@ -68,13 +56,18 @@
         font-weight: 500;
     }
 
-    &__specs {
+    &__desc {
+        font-size: var(--cyb-sys-font-size-3);
+        color: var(--text-secondary);
         margin-bottom: auto;
         line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     &__actions {
-
         margin-top: var(--cyb-sys-margin-4);
     }
 
@@ -85,9 +78,7 @@
         cursor: pointer;
         font-weight: 500;
         transition: background-color 0.2s;
-
         text-decoration: none;
-
 
         &--modify {
             background-color: transparent;

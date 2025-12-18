@@ -1,44 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { Computer } from '../../../../models/computer.model';
+import { Component, OnInit, inject } from '@angular/core';
+import { Computer, ComputerResponse } from '../../../../models/computer.model';
 import { CPagination } from '../../ui/c-pagination/c-pagination';
 import { CComputerCard } from '../../ui/c-computer-card/c-computer-card';
 import { CSearchBar } from '../../ui/c-search-bar/c-search-bar';
 import { CFilterSelect, FilterOption } from '../../ui/c-filter-select/c-filter-select';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CPopup } from '../../ui/c-popup/c-popup';
+import { ComputerService } from '../../../../services/computer.service';
 
 @Component({
   selector: 'app-computers',
   standalone: true,
-  imports: [CPagination, CComputerCard, RouterLink, CSearchBar, CFilterSelect, MatDialogModule],
+  imports: [CPagination, CComputerCard, RouterLink, CSearchBar, CFilterSelect, MatDialogModule, MatSnackBarModule],
   templateUrl: './computers.html',
   styleUrl: './computers.scss',
 })
 export class Computers implements OnInit {
-  computers: Computer[] = Array.from({ length: 200 }, (_, i) => ({
-    id: i + 1,
-    label: `PC-${(i + 1).toString().padStart(2, '0')} ${['Gamer', 'Workstation', 'Standard', 'Streaming', 'Office'][Math.floor(Math.random() * 5)]}`,
-    slug: `pc-${(i + 1).toString().padStart(2, '0')}-${['gamer', 'workstation', 'standard', 'streaming', 'office'][Math.floor(Math.random() * 5)]}`,
-    runtime: Math.floor(Math.random() * 500),
-    specs: [
-      'RTX 3060, i5 12400F, 16GB RAM',
-      'RTX 4090, i9 13900K, 64GB RAM',
-      'GTX 1660, i3 10100, 8GB RAM',
-      'RTX 3070, i7 11700, 32GB RAM',
-      'RTX 4080, Ryzen 9 7900X, 64GB RAM',
-      'GTX 1650, Ryzen 5 5600, 16GB RAM'
-    ][Math.floor(Math.random() * 6)],
-    workingSince: new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toLocaleDateString('es-ES'),
-    image: [
-      'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1598550476439-6847785fcea6?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=600&auto=format&fit=crop'
-    ][Math.floor(Math.random() * 5)],
-    categoryPC: ['Gaming', 'Workstation', 'Standard', 'Streaming', 'Office'][Math.floor(Math.random() * 5)]
-  }));
+  computerService = inject(ComputerService);
+
+  computers: Computer[] = [];
+  totalPages: number = 0;
+  totalElements: number = 0;
 
   categoryFilterOptions: FilterOption[] = [
     { value: 'Gaming', label: 'Gaming' },
@@ -48,7 +32,7 @@ export class Computers implements OnInit {
     { value: 'Office', label: 'Office' }
   ];
 
-  itemsPerPage: number = 12;
+  size: number = 10;
   currentPage: number = 1;
 
   constructor(
@@ -60,19 +44,27 @@ export class Computers implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['page']) {
         this.currentPage = Number.parseInt(params['page']);
+        this.size = Number.parseInt(params['size']);
       } else {
         this.currentPage = 1;
+        this.size = 10;
       }
+      this.loadComputers();
     });
   }
 
-  get paginatedComputers() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.computers.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  get totalPages() {
-    return Math.ceil(this.computers.length / this.itemsPerPage);
+  loadComputers(): void {
+    this.computerService.getAll<ComputerResponse>(this.currentPage, this.size).subscribe({
+      next: (response: ComputerResponse) => {
+        this.computers = response.data;
+        this.totalPages = Math.ceil(response.totalElements / this.size);
+        this.totalElements = response.totalElements;
+        console.log(this.computers);
+      },
+      error: (error) => {
+        console.error('Error fetching computers:', error);
+      }
+    });
   }
 
   openCreateDialog(): void {
@@ -82,59 +74,157 @@ export class Computers implements OnInit {
       slug: '',
       runtime: 0,
       specs: '',
-      workingSince: '',
+      workingSince: new Date().toLocaleDateString(),
       image: '',
-      categoryPC: ''
+      // Default empty category, user will provide name
+      categoryPCResponse: { id: 0, label: '', slug: '' }
+    };
+
+    // We pass 'categoryName' in the data so CPopup renders an input for it.
+    // We EXCLUDE 'category' object so CPopup doesn't try to render it.
+    const dialogData = {
+      ...newComputer,
+      categoryName: ''
     };
 
     const dialogRef = this.dialog.open(CPopup, {
+      panelClass: 'c-popup',
       width: '500px',
-      data: { mode: 'create', data: newComputer }
+      data: {
+        mode: 'create',
+        data: dialogData,
+        title: 'Computero',
+        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime']
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Create dialog closed with result:', result);
-        // Here you would typically call a service to save the new computer
-        // For now, we'll just add it to the local array
-        result.id = this.computers.length + 1; // Assign a new ID
-        this.computers.unshift(result); // Add to the beginning of the array
+        // 1. Generate Computer Slug
+        const computerSlug = this.computerService.generateSlug(result.label);
+
+        // 2. Extract Category Name and fetch valid Category
+        const categoryName = result.categoryName;
+        const categorySlug = this.computerService.generateSlug(categoryName);
+        console.log('Category slug:', categorySlug);
+
+        this.computerService.getCategoryBySlug(categorySlug).subscribe({
+          next: (fetchedCategory) => {
+            console.log('Category fetched:', fetchedCategory);
+
+            // 3. Compose final computer with fetched category
+            const computerToCreate = {
+              ...newComputer,
+              ...result,
+              slug: computerSlug,
+              // FIX 1: Send Date in YYYY-MM-DD format
+              workingSince: new Date().toISOString().split('T')[0],
+              // FIX 2: Rename field to match Backend DTO
+              categoryPCRequest: fetchedCategory
+            };
+
+            // Remove the incorrect field from the spread operator
+            delete (computerToCreate as any).categoryPCResponse;
+            // Also remove categoryName which comes from result (if it wasn't removed before, though result shouldn't have it if control usage is separate)
+            // Actually result comes from dialog, which has categoryName.
+            delete (computerToCreate as any).categoryName;
+
+            (computerToCreate as any).id = null;
+
+            // 4. Send POST
+            this.computerService.post<Computer>(computerToCreate).subscribe({
+              next: (createdComputer) => {
+                console.log('Computer created:', createdComputer);
+                this.loadComputers();
+              },
+              error: (error) => {
+                console.error('Error creating computer:', error);
+              }
+            });
+          },
+          error: (err) => {
+            console.error('Category not found for slug:', categorySlug, err);
+          }
+        });
+
       }
     });
   }
 
   openEditDialog(computer: Computer): void {
+    const dialogData = {
+      ...computer,
+      categoryName: computer.categoryPCResponse?.label || ''
+    };
+
     const dialogRef = this.dialog.open(CPopup, {
       panelClass: 'c-popup',
       width: '500px',
-      data: { mode: 'edit', data: { ...computer } }
+      data: {
+        mode: 'edit',
+        data: dialogData,
+        title: 'Computero',
+        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime']
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log('Computers: Edit dialog closed. Result:', result);
       if (result) {
-        console.log('Edit dialog closed with result:', result);
-        // Here you would typically call a service to update the computer
-        // For now, we'll just update the item in the local array
-        const index = this.computers.findIndex(c => c.id === result.id);
-        if (index > -1) {
-          this.computers[index] = result;
-        }
+        const categoryName = result.categoryName;
+        const categorySlug = this.computerService.generateSlug(categoryName);
+
+        this.computerService.getCategoryBySlug(categorySlug).subscribe({
+          next: (fetchedCategory) => {
+            const updatedComputer = {
+              ...computer,
+              ...result,
+              categoryPCRequest: fetchedCategory
+            };
+
+            this.computerService.put<Computer>(computer.slug, updatedComputer).subscribe({
+              next: (updatedComputer) => {
+                console.log('Computer updated:', updatedComputer);
+                this.loadComputers();
+              },
+              error: (error) => {
+                console.error('Error updating computer:', error);
+              }
+            });
+          },
+          error: (err) => {
+            console.error('Category not found for slug:', categorySlug, err);
+          }
+        });
       }
     });
   }
 
   openDeleteDialog(computer: Computer): void {
     const dialogRef = this.dialog.open(CPopup, {
+      panelClass: 'c-popup',
       width: '400px',
-      data: { mode: 'delete', data: computer }
+      data: {
+        mode: 'delete',
+        data: computer,
+        title: 'Computero'
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log('Computers: Delete dialog closed. Result:', result);
       if (result) {
-        console.log('Delete dialog confirmed for computer:', computer);
-        // Here you would typically call a service to delete the computer
-        // For now, we'll just remove it from the local array
-        this.computers = this.computers.filter(c => c.id !== computer.id);
+        // Use slug if typical for this API, otherwise ID. 
+        // Given the PUT error explicitly checked path vs body slug, DELETE likely uses slug too.
+        this.computerService.delete(computer.slug || computer.id.toString()).subscribe({
+          next: () => {
+            console.log('Computer deleted:', computer);
+            this.loadComputers(); // Reload the list
+          },
+          error: (error) => {
+            console.error('Error deleting computer:', error);
+          }
+        });
       }
     });
   }

@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core'
 import { Observable, BehaviorSubject, timeout, catchError, of, throwError } from 'rxjs'
 import { AuthResponse, LoginRequest, RegisterRequest, UserProfile } from '../models/auth.model'
@@ -6,20 +7,21 @@ import { HTTPService } from './http.service'
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  private readonly authRoute: string = '/api/auth'
+export class AuthService extends HTTPService {
+  override url = '/api/auth';
+
   private userSubject = new BehaviorSubject<UserProfile | null>(null)
   public user$ = this.userSubject.asObservable()
   private tokenVerified = false
 
-  constructor(private httpService: HTTPService) { }
+
 
   register(request: RegisterRequest): Observable<AuthResponse> {
-    return this.httpService.post<AuthResponse>(`${this.authRoute}/register`, request)
+    return this.http.post<AuthResponse>(`${this.url}/register`, request)
   }
 
   login(request: LoginRequest): Observable<AuthResponse> {
-    return this.httpService.post<AuthResponse>(`${this.authRoute}/login`, request)
+    return this.http.post<AuthResponse>(`${this.url}/login`, request)
   }
 
   verifyToken(): Observable<UserProfile> {
@@ -33,7 +35,7 @@ export class AuthService {
     }
 
     this.tokenVerified = true
-    return this.httpService.getById<UserProfile>(`${this.authRoute}/verify`).pipe(
+    return this.http.get<UserProfile>(`${this.url}/verify`).pipe(
       timeout(5000),
       catchError(error => {
         this.tokenVerified = false

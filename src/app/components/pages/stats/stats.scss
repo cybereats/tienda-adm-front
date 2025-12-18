@@ -26,12 +26,6 @@
     height: 100%;
     padding: var(--stats-padding);
 
-    &__title {
-        font-size: var(--stats-page-title-size);
-        font-weight: var(--stats-page-title-weight);
-        color: var(--stats-page-title-color);
-        margin-bottom: var(--stats-page-title-margin);
-    }
 
     &__grid {
         display: grid;

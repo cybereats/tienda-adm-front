@@ -1,5 +1,5 @@
 <section class="reports l-flex l-flex__direction-column">
-    <h1 class="reports__title">Reportes</h1>
+    <h1 class="reports__title c-title">Reportes</h1>
 
     <div class="reports__summary">
         <c-summary-card title="Total Reportes" [value]="stats.total"></c-summary-card>
@@ -33,19 +33,19 @@
             </tr>
         </thead>
         <tbody>
-            @for (report of paginatedReports; track report.id) {
+            @for (report of reports; track report.id) {
             <tr class="table__row">
                 <td class="table__cell">
-                    <a routerLink="/admin/reports" class="reports__link">{{ report.reportId }}</a>
+                    <a routerLink="/admin/reports" class="reports__link">{{ report.id }}</a>
                 </td>
-                <td class="table__cell">{{ report.user }}</td>
-                <td class="table__cell">{{ report.pc }}</td>
-                <td class="table__cell">{{ report.issue }}</td>
+                <td class="table__cell">{{ report.user.name }}</td>
+                <td class="table__cell">{{ report.pc.label }}</td>
+                <td class="table__cell">{{ report.desc }}</td>
                 <td class="table__cell">
-                    <c-status [status]="report.status" (statusChange)="report.status = $event; calculateStats()"
+                    <c-status [status]="report.status" (statusChange)="updateReportStatus(report, $event)"
                         [options]="statusOptions"></c-status>
                 </td>
-                <td class="table__cell">{{ report.date }}</td>
+                <td class="table__cell">{{ report.createdAt }}</td>
             </tr>
             }
         </tbody>
