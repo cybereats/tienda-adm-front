@@ -57,7 +57,7 @@ export class Products {
       id: 0,
       label: '',
       slug: '',
-      desc: '',
+      description: '',
       price: 0,
       // Default empty category, user will provide name
       category: { id: 0, label: '', slug: '' }

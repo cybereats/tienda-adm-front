@@ -32,6 +32,8 @@
     --computers-search-btn-padding: var(--cyb-sys-padding-3);
 
     width: 100%;
+    padding: var(--computers-padding);
+
 
     &__controls {
         justify-content: space-between;
@@ -91,7 +93,7 @@
 
     &__grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: var(--computers-gap);
     }
 

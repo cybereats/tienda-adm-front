@@ -1,5 +1,5 @@
 <section class="reports l-flex l-flex__direction-column">
-    <h1 class="reports__title c-title">Reportes</h1>
+    <h1 class="c-title">Reportes</h1>
 
     <div class="reports__summary">
         <c-summary-card title="Total Reportes" [value]="stats.total"></c-summary-card>
@@ -40,7 +40,7 @@
                 </td>
                 <td class="table__cell">{{ report.user.name }}</td>
                 <td class="table__cell">{{ report.pc.label }}</td>
-                <td class="table__cell">{{ report.desc }}</td>
+                <td class="table__cell">{{ report.description }}</td>
                 <td class="table__cell">
                     <c-status [status]="report.status" (statusChange)="updateReportStatus(report, $event)"
                         [options]="statusOptions"></c-status>

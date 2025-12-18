@@ -8,7 +8,7 @@ export interface Product {
   id: number;
   label: string;
   slug: string;
-  desc: string;
+  description: string;
   price: number;
   category: CategoryProduct;
 }

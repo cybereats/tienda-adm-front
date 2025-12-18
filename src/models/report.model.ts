@@ -4,7 +4,7 @@ import { User } from "./user.model";
 export interface Report {
     id: number;
     priority: string;
-    desc: string;
+    description: string;
     subject: string;
     user: User;
     pc: Computer;
