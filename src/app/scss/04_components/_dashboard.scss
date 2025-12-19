@@ -1,69 +1,11 @@
 .dashboard {
   --padding-main: var(--cyb-sys-padding-8);
   --gap-main: var(--cyb-sys-margin-8);
-  --card-bg: var(--cyb-sys-color-white-9);
-  --card-padding: var(--cyb-sys-padding-5);
-  --card-radius: var(--cyb-sys-border-radius-5);
-  --subtitle-margin-bottom: var(--cyb-sys-margin-8);
-  --value-font-size: var(--cyb-sys-font-size-7);
-  --value-font-weight: var(--cyb-sys-font-weight-7);
-  --line-width: var(--cyb-sys-width-3);
-  --line-height: var(--cyb-sys-height-4);
-  --line-gap: var(--cyb-sys-margin-3);
-  --availability-margin-top: var(--cyb-sys-margin-7);
-  --shadow: var(--cyb-sys-shadow-2);
 
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   width: 100%;
   justify-content: space-around;
   gap: var(--gap-main);
   flex-wrap: nowrap;
-
-  &__card {
-    background-color: var(--card-bg);
-    padding: var(--card-padding);
-    border-radius: var(--card-radius);
-    width: 50%;
-    box-shadow: var(--shadow);
-
-    .dashboard__subtitle {
-      margin-bottom: var(--subtitle-margin-bottom);
-    }
-
-    .dashboard__value {
-      font-size: var(--value-font-size);
-      font-weight: var(--value-font-weight);
-    }
-  }
-
-  &__availability {
-    background-color: var(--card-bg);
-    padding: var(--card-padding);
-    border-radius: var(--card-radius);
-    width: 50%;
-    box-shadow: var(--shadow);
-
-    .dashboard__subtitle {
-      margin-bottom: var(--subtitle-margin-bottom);
-    }
-
-    &-lines {
-      display: flex;
-      align-items: center;
-      gap: var(--line-gap);
-      margin-top: var(--availability-margin-top);
-    }
-  }
-
-  &__line {
-    width: var(--line-width);
-    height: var(--line-height);
-    padding: 0;
-    background-color: var(--cyb-sys-color-red-4);
-    border-radius: 0;
-
-    &--active {
-      background-color: var(--cyb-sys-color-green-5);
-    }
-  }
 }

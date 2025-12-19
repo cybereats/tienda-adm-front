@@ -1,18 +1,12 @@
 <section class="dashboard">
-  <div class="dashboard__card">
-    <h3 class="dashboard__subtitle">Ingresos Diarios</h3>
-    <h1 class="dashboard__value">{{ dailyIncome | currency }}</h1>
-  </div>
-  <div class="dashboard__card">
-    <h3 class="dashboard__subtitle">Reservas Diarias</h3>
-    <h1 class="dashboard__value">{{ dailyBookings }}</h1>
-  </div>
-  <div class="dashboard__card">
-    <h3 class="dashboard__subtitle">Reservas Activas</h3>
-    <div class="l-flex l-flex__justify-between l-width-100">
-      <span class="dashboard__value">{{ activeBookings.occupied }}/{{ activeBookings.total }}</span>
-    </div>
-  </div>
+  <c-summary-card title="Ingresos Diarios" [value]="(dailyIncome | currency) || ''">
+  </c-summary-card>
+
+  <c-summary-card title="Reservas Diarias" [value]="dailyBookings">
+  </c-summary-card>
+
+  <c-summary-card title="Reservas Activas" [value]="activeBookings.occupied + '/' + activeBookings.total">
+  </c-summary-card>
 </section>
 
 <h1 class="index__title c-title">Ingresos por Hora (Hoy)</h1>
@@ -24,79 +18,24 @@
 <h1 class="index__title c-title">Reservas recientes</h1>
 
 <section class="reservations">
-  <div class="reservations__table">
-
-    <table class="reservations__table-element">
-
-      <tbody>
-        <tr>
-          <td class="reservations__cell">#B23L1</td>
-          <td class="reservations__cell">Enrique Gracia</td>
-          <td class="reservations__cell">2h</td>
-          <td class="reservations__cell">15/07/2025</td>
-        </tr>
-
-        <tr>
-          <td class="reservations__cell">#B23L1</td>
-          <td class="reservations__cell">Enrique Gracia</td>
-          <td class="reservations__cell">2h</td>
-          <td class="reservations__cell">15/07/2025</td>
-        </tr>
-
-        <tr>
-          <td class="reservations__cell">#B23L1</td>
-          <td class="reservations__cell">Enrique Gracia</td>
-          <td class="reservations__cell">2h</td>
-          <td class="reservations__cell">15/07/2025</td>
-        </tr>
-
-        <tr>
-          <td class="reservations__cell">#B23L1</td>
-          <td class="reservations__cell">Enrique Gracia</td>
-          <td class="reservations__cell">2h</td>
-          <td class="reservations__cell">15/07/2025</td>
-        </tr>
-
-
-        <tr>
-          <td class="reservations__cell">#B23L1</td>
-          <td class="reservations__cell">Enrique Gracia</td>
-          <td class="reservations__cell">2h</td>
-          <td class="reservations__cell">15/07/2025</td>
-        </tr>
-
-
-        <tr>
-          <td class="reservations__cell">#B23L1</td>
-          <td class="reservations__cell">Enrique Gracia</td>
-          <td class="reservations__cell">2h</td>
-          <td class="reservations__cell">15/07/2025</td>
-        </tr>
-
-
-        <tr>
-          <td class="reservations__cell">#B23L1</td>
-          <td class="reservations__cell">Enrique Gracia</td>
-          <td class="reservations__cell">2h</td>
-          <td class="reservations__cell">15/07/2025</td>
-        </tr>
-
-
-        <tr>
-          <td class="reservations__cell">#B23L1</td>
-          <td class="reservations__cell">Enrique Gracia</td>
-          <td class="reservations__cell">2h</td>
-          <td class="reservations__cell">15/07/2025</td>
-        </tr>
-
-
-        <tr>
-          <td class="reservations__cell">#B23L1</td>
-          <td class="reservations__cell">Enrique Gracia</td>
-          <td class="reservations__cell">2h</td>
-          <td class="reservations__cell">15/07/2025</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="table">
+    <thead>
+      <tr class="table__row table__row--header">
+        <th class="table__header-cell">ID</th>
+        <th class="table__header-cell">Usuario</th>
+        <th class="table__header-cell">Duración</th>
+        <th class="table__header-cell">PC</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (booking of bookings; track booking.id) {
+      <tr class="table__row">
+        <td class="table__cell">#{{ booking.id }}</td>
+        <td class="table__cell">{{ booking.user.username }}</td>
+        <td class="table__cell">{{ booking.hours }}h</td>
+        <td class="table__cell">{{ booking.pc.label }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </section>

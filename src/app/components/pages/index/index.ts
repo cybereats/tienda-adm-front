@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { CGraphic } from '../../ui/c-graphic/c-graphic';
 import { StatsService } from '../../../../services/stats.service';
 import { CurrencyPipe } from '@angular/common';
+import { CSummaryCard } from "../../ui/c-summary-card/c-summary-card";
+import { BookingService } from '../../../../services/booking.service';
+import { Booking, BookingResponse } from '../../../../models/booking.model';
 
 @Component({
   selector: 'app-index',
-  imports: [CGraphic, CurrencyPipe],
+  imports: [CGraphic, CurrencyPipe, CSummaryCard],
   templateUrl: './index.html',
   styleUrl: './index.scss',
 })
@@ -13,18 +16,20 @@ export class Index {
   dailyIncome = 0
   dailyBookings = 0
   activeBookings = { total: 0, occupied: 0 }
+  bookings: Booking[] = []
 
   barSeries: any[] = []
   barCategories: string[] = []
   barColors = ["#7600A8"]
 
-  constructor(private statsService: StatsService) { }
+  constructor(private statsService: StatsService, private bookingService: BookingService) { }
 
   ngOnInit() {
     this.fetchDailyIncome()
     this.fetchDailyBookings()
     this.fetchActiveBookings()
     this.fetchDailySummary()
+    this.fetchRecentBookings()
   }
 
   fetchDailyIncome() {
@@ -59,6 +64,12 @@ export class Index {
         name: "Ingresos por Hora",
         data: incomeByHour
       }]
+    })
+  }
+
+  fetchRecentBookings() {
+    this.bookingService.getAll<BookingResponse>(1, 10).subscribe(res => {
+      this.bookings = res.data
     })
   }
 }
