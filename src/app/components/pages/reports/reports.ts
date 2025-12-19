@@ -60,13 +60,8 @@ export class Reports {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      if (params['page']) {
-        this.currentPage = parseInt(params['page']);
-        this.size = parseInt(params['size']);
-      } else {
-        this.currentPage = 1;
-        this.size = 10;
-      }
+      this.currentPage = params['page'] ? parseInt(params['page']) : 1;
+      this.size = params['size'] ? parseInt(params['size']) : 10;
       this.loadReports();
     });
 

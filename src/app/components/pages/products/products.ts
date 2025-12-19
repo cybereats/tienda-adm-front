@@ -32,6 +32,7 @@ export class Products {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.currentPage = params['page'] ? Number.parseInt(params['page']) : 1;
+      this.size = params['size'] ? Number.parseInt(params['size']) : 10;
       this.loadProducts();
     });
   }

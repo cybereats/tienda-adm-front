@@ -47,13 +47,8 @@ export class Orders {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      if (params['page']) {
-        this.currentPage = Number.parseInt(params['page']);
-        this.size = Number.parseInt(params['size']);
-      } else {
-        this.currentPage = 1;
-        this.size = 10;
-      }
+      this.currentPage = params['page'] ? Number.parseInt(params['page']) : 1;
+      this.size = params['size'] ? Number.parseInt(params['size']) : 10;
       this.loadOrders();
     });
   }

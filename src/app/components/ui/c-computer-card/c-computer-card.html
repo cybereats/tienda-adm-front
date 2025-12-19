@@ -1,14 +1,14 @@
 <div class="c-computer-card l-flex l-flex__direction-column">
     <div class="c-computer-card__image-wrapper">
-        <img [src]="computer.image" [alt]="computer.label" class="c-computer-card__image">
+        <img [src]="'images/' + computer.image" [alt]="computer.label" class="c-computer-card__image">
     </div>
 
     <div class="c-computer-card__content l-flex l-flex__direction-column l-flex__flex-1 l-flex__gap-3">
-        <h2 class="c-computer-card__title c-title c-title--medium">{{ computer.label }}</h2>
-        <span class="c-computer-card__slug c-body c-body--small c-body--secondary">{{ computer.slug }}</span>
+        <h2 class="c-title c-title--medium">{{ computer.label }}</h2>
+        <span class="c-body c-body--small c-body--secondary">{{ computer.slug }}</span>
 
         <div class="c-computer-card__details l-flex l-flex__direction-column l-flex__gap-2">
-            <div class="c-computer-card__detail c-body c-body--small l-flex l-flex__justify-space-between">
+            <div class="c-body c-body--small l-flex l-flex__justify-space-between">
                 <span class="c-computer-card__label">Categoría:</span>
                 <span class="c-computer-card__value c-body--primary">{{ computer.categoryPCResponse?.label }}</span>
             </div>

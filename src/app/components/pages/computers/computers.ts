@@ -4,7 +4,7 @@ import { CPagination } from '../../ui/c-pagination/c-pagination';
 import { CComputerCard } from '../../ui/c-computer-card/c-computer-card';
 import { CSearchBar } from '../../ui/c-search-bar/c-search-bar';
 import { CFilterSelect, FilterOption } from '../../ui/c-filter-select/c-filter-select';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CPopup } from '../../ui/c-popup/c-popup';
@@ -13,7 +13,7 @@ import { ComputerService } from '../../../../services/computer.service';
 @Component({
   selector: 'app-computers',
   standalone: true,
-  imports: [CPagination, CComputerCard, RouterLink, CSearchBar, CFilterSelect, MatDialogModule, MatSnackBarModule],
+  imports: [CPagination, CComputerCard, CSearchBar, CFilterSelect, MatDialogModule, MatSnackBarModule],
   templateUrl: './computers.html',
   styleUrl: './computers.scss',
 })
@@ -42,13 +42,8 @@ export class Computers implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      if (params['page']) {
-        this.currentPage = Number.parseInt(params['page']);
-        this.size = Number.parseInt(params['size']);
-      } else {
-        this.currentPage = 1;
-        this.size = 10;
-      }
+      this.currentPage = params['page'] ? Number.parseInt(params['page']) : 1;
+      this.size = params['size'] ? Number.parseInt(params['size']) : 10;
       this.loadComputers();
     });
   }
