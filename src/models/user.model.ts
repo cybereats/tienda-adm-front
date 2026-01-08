@@ -5,4 +5,14 @@ export interface User {
   bornDate?: string | null
   username: string
   password?: string | null
+  email: string
+  role: 'ADMIN' | 'CLIENT'
+}
+
+export interface UsersResponse {
+  data: User[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages?: number;
 }

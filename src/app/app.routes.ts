@@ -8,10 +8,12 @@ import { Computers } from './components/pages/computers/computers';
 import { Login } from './components/pages/login/login';
 import { authGuard } from '../guards/auth.guard';
 import { guestGuard } from '../guards/guest.guard';
+import { Users } from './components/pages/users/users';
 
 export const routes: Routes = [
     { path: 'admin', component: Index, canActivate: [authGuard] },
     { path: 'admin/stats', component: Stats, canActivate: [authGuard] },
+    { path: 'admin/users', component: Users, canActivate: [authGuard] },
     { path: 'admin/orders', component: Orders, canActivate: [authGuard] },
     { path: 'admin/products', component: Products, canActivate: [authGuard] },
     { path: 'admin/reports', component: Reports, canActivate: [authGuard] },

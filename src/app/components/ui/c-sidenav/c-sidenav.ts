@@ -13,6 +13,7 @@ export class CSidenav {
   sideNavItems = [
     { name: 'Inicio', icon: 'home.png', route: '/admin' },
     { name: 'Estadísticas', icon: 'stats.png', route: '/admin/stats' },
+    { name: 'Usuarios', icon: 'users.png', route: '/admin/users' },
     { name: 'Pedidos', icon: 'orders.png', route: '/admin/orders' },
     { name: 'Productos', icon: 'products.png', route: '/admin/products' },
     { name: 'Ordenadores', icon: 'computers.png', route: '/admin/computers' },
