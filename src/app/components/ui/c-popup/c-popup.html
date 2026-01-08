@@ -10,7 +10,16 @@
       @if (form.contains(key)) {
       <mat-form-field appearance="fill" class="c-popup__form-field">
         <mat-label>{{ key }}</mat-label>
-        <input matInput [formControlName]="key">
+        @if (dialogData.fieldOptions && dialogData.fieldOptions[key]) {
+        <mat-select [formControlName]="key">
+          @for (option of dialogData.fieldOptions[key]; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-select>
+        } @else {
+        <input matInput [formControlName]="key" [type]="key === 'price' ? 'number' : 'text'"
+          [min]="key === 'price' ? 0 : null">
+        }
       </mat-form-field>
       }
       }
@@ -35,7 +44,16 @@
       @if (form.contains(key)) {
       <mat-form-field appearance="fill" class="c-popup__form-field">
         <mat-label>{{ key }}</mat-label>
-        <input matInput [formControlName]="key">
+        @if (dialogData.fieldOptions && dialogData.fieldOptions[key]) {
+        <mat-select [formControlName]="key">
+          @for (option of dialogData.fieldOptions[key]; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-select>
+        } @else {
+        <input matInput [formControlName]="key" [type]="key === 'price' ? 'number' : 'text'"
+          [min]="key === 'price' ? 0 : null">
+        }
       </mat-form-field>
       }
       }

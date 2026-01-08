@@ -19,3 +19,9 @@ export interface ReportResponse {
     totalElements: number;
     totalPages?: number; // Optional since backend doesn't return it
 }
+
+export interface ReportStats {
+    IN_PROGRESS: number;
+    RESOLVED: number;
+    PENDING: number;
+}

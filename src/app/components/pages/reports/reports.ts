@@ -8,7 +8,7 @@ import { CFilterSelect, FilterOption } from '../../ui/c-filter-select/c-filter-s
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../../services/report.service';
-import { Report, ReportResponse } from '../../../../models/report.model';
+import { Report, ReportResponse, ReportStats } from '../../../../models/report.model';
 
 @Component({
   selector: 'app-reports',
@@ -63,6 +63,7 @@ export class Reports {
       this.currentPage = params['page'] ? parseInt(params['page']) : 1;
       this.size = params['size'] ? parseInt(params['size']) : 10;
       this.loadReports();
+      this.loadStats();
     });
 
 
@@ -74,7 +75,6 @@ export class Reports {
         this.reports = response.data;
         this.totalPages = Math.ceil(response.totalElements / this.size);
         this.totalElements = response.totalElements;
-        this.calculateStats();
         console.log(this.reports);
       },
       error: (error) => {
@@ -83,11 +83,18 @@ export class Reports {
     });
   }
 
-  calculateStats() {
-    this.stats.total = this.reports.length;
-    this.stats.pending = this.reports.filter(r => r.status === 'PENDING').length;
-    this.stats.inProgress = this.reports.filter(r => r.status === 'IN_PROGRESS').length;
-    this.stats.resolved = this.reports.filter(r => r.status === 'RESOLVED').length;
+  loadStats() {
+    this.reportService.getStatusCount().subscribe({
+      next: (stats) => {
+        this.stats.pending = stats.PENDING;
+        this.stats.inProgress = stats.IN_PROGRESS;
+        this.stats.resolved = stats.RESOLVED;
+        this.stats.total = this.stats.pending + this.stats.inProgress + this.stats.resolved;
+      },
+      error: (error) => {
+        console.error('Error al cargar las estadísticas:', error);
+      }
+    });
   }
 
   updateReportStatus(report: Report, newStatus: string) {
@@ -95,7 +102,7 @@ export class Reports {
     this.reportService.put<Report>(report.id.toString(), updatedReport).subscribe({
       next: (response) => {
         report.status = newStatus;
-        this.calculateStats();
+        this.loadStats();
         console.log('Report status updated successfully:', response);
       },
       error: (error) => {

@@ -79,7 +79,7 @@ export class Orders {
   updateOrderStatus(order: Order, newStatus: string) {
     const updatedOrder = { ...order, status: newStatus };
     console.log('Updating order status:', updatedOrder);
-    this.orderService.put<Order>(order.id, updatedOrder).subscribe({
+    this.orderService.put<Order>(order.id.toString(), updatedOrder).subscribe({
       next: (response) => {
         order.status = newStatus;
         console.log('Order status updated successfully:', response);

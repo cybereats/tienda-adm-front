@@ -201,7 +201,10 @@ export class Computers implements OnInit {
       width: '400px',
       data: {
         mode: 'delete',
-        data: computer,
+        data: {
+          ...computer,
+          categoryPCResponse: computer.categoryPCResponse?.label || ''
+        },
         title: 'Computero'
       }
     });

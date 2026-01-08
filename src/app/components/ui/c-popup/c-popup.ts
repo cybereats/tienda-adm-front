@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-c-popup',
@@ -17,7 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   templateUrl: './c-popup.html',
   styleUrls: ['./c-popup.scss']
@@ -33,7 +35,8 @@ export class CPopup implements OnInit {
       mode: 'create' | 'edit' | 'delete',
       data: any,
       title?: string,
-      excludedFields?: string[]
+      excludedFields?: string[],
+      fieldOptions?: { [key: string]: string[] }
     }
   ) {
     if (this.dialogData.data) {
@@ -50,7 +53,13 @@ export class CPopup implements OnInit {
       this.formKeys.forEach(key => {
         if (!excluded.includes(key)) {
           const value = this.dialogData.data[key];
-          const control = this.fb.control({ value: value, disabled: key === 'id' }, Validators.required);
+          const validators = [Validators.required];
+
+          if (key === 'price') {
+            validators.push(Validators.min(0));
+          }
+
+          const control = this.fb.control({ value: value, disabled: key === 'id' }, validators);
           controls[key] = control;
         }
       });

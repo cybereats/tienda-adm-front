@@ -19,6 +19,7 @@ import { CPopup } from '../../ui/c-popup/c-popup';
 })
 export class Products {
   products: Product[] = [];
+  categories: string[] = [];
   size: number = 10;
   currentPage: number = 1;
   totalElements: number = 0;
@@ -34,6 +35,18 @@ export class Products {
       this.currentPage = params['page'] ? Number.parseInt(params['page']) : 1;
       this.size = params['size'] ? Number.parseInt(params['size']) : 10;
       this.loadProducts();
+      this.loadCategories();
+    });
+  }
+
+  loadCategories(): void {
+    this.productService.getAllCategories().subscribe({
+      next: (data) => {
+        this.categories = data.map(c => c.label);
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
+      }
     });
   }
 
@@ -78,7 +91,10 @@ export class Products {
         mode: 'create',
         data: dialogData,
         title: 'Producto',
-        excludedFields: ['slug', 'category']
+        excludedFields: ['slug', 'category'],
+        fieldOptions: {
+          categoryName: this.categories
+        }
       }
     });
 
@@ -138,7 +154,10 @@ export class Products {
         mode: 'edit',
         data: dialogData,
         title: 'Producto',
-        excludedFields: ['slug', 'category']
+        excludedFields: ['slug', 'category'],
+        fieldOptions: {
+          categoryName: this.categories
+        }
       }
     });
 
@@ -181,7 +200,10 @@ export class Products {
       width: '400px',
       data: {
         mode: 'delete',
-        data: product,
+        data: {
+          ...product,
+          category: product.category?.label || ''
+        },
         title: 'Producto'
       }
     });

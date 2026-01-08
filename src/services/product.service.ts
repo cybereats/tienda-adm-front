@@ -20,4 +20,8 @@ export class ProductService extends HTTPService {
   getCategoryBySlug(slug: string): Observable<CategoryProduct> {
     return this.http.get<CategoryProduct>(`/api/category-products/${slug}`);
   }
+
+  getAllCategories(): Observable<CategoryProduct[]> {
+    return this.http.get<CategoryProduct[]>('/api/category-products/all');
+  }
 }
