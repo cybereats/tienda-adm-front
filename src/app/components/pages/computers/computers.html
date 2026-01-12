@@ -2,10 +2,15 @@
     <h1 class="c-title">Ordenadores</h1>
 
     <div class="computers__controls l-flex l-flex__align-center">
-        <c-search-bar class="l-flex__flex-1" placeholder="Buscar por nombre, categoría..."></c-search-bar>
+        <c-search-bar class="l-flex__flex-1" placeholder="Buscar por nombre, categoría..." [value]="filterText"
+            (search)="onSearch($event)"></c-search-bar>
 
-        <c-filter-select placeholder="Todas las categorías" [options]="categoryFilterOptions">
+        <c-filter-select placeholder="Todas las categorías" [options]="categoryFilterOptions" [value]="filterCategory"
+            (valueChange)="onCategoryChange($event)">
         </c-filter-select>
+
+        <c-reset-filters [disabled]="!filterText && !filterCategory" (reset)="resetFilters()">
+        </c-reset-filters>
 
         <button class="computers__btn computers__btn--add" (click)="openCreateDialog()">
             Añadir Ordenador

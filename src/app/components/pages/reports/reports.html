@@ -11,13 +11,18 @@
 
 
     <div class="reports__controls l-flex l-flex__align-center">
-        <c-search-bar class="l-flex__flex-1" placeholder="Buscar por ID, Usuario..."></c-search-bar>
+        <c-search-bar class="l-flex__flex-1" placeholder="Buscar por ID, Usuario..." [value]="filterText"
+            (search)="onSearch($event)"></c-search-bar>
 
         <div class="reports__filters l-flex">
-            <c-filter-select placeholder="Todos los estados" [options]="statusFilterOptions">
+            <c-filter-select placeholder="Todos los estados" [options]="statusFilterOptions" [value]="filterStatus"
+                (valueChange)="onStatusChange($event)">
             </c-filter-select>
 
-            <input type="date" class="reports__date-input">
+            <input type="date" class="reports__date-input" [value]="filterDate" (change)="onDateChange($event)">
+
+            <c-reset-filters [disabled]="!filterText && !filterStatus && !filterDate" (reset)="resetFilters()">
+            </c-reset-filters>
         </div>
     </div>
 

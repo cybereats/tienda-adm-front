@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,13 +10,14 @@ import { CStatus } from "../../ui/c-status/c-status";
 import { CPagination } from "../../ui/c-pagination/c-pagination";
 import { CSearchBar } from "../../ui/c-search-bar/c-search-bar";
 import { CFilterSelect, FilterOption } from "../../ui/c-filter-select/c-filter-select";
+import { CResetFilters } from "../../ui/c-reset-filters/c-reset-filters";
 
 import { UserService } from "../../../../services/user.service";
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [RouterLink, FormsModule, CommonModule, CStatus, CPagination, CSearchBar, CFilterSelect],
+  imports: [RouterLink, FormsModule, CommonModule, CStatus, CPagination, CSearchBar, CFilterSelect, CResetFilters],
   templateUrl: './users.html',
   styleUrl: './users.scss',
 })
@@ -24,6 +25,7 @@ import { UserService } from "../../../../services/user.service";
 export class Users implements OnInit {
   userService = inject(UserService);
   activatedRoute = inject(ActivatedRoute);
+  router = inject(Router);
   dialog = inject(MatDialog);
 
   users!: User[];
@@ -44,16 +46,56 @@ export class Users implements OnInit {
   size: number = 10;
   currentPage: number = 1;
 
+  filterText: string = '';
+  filterRole: string = '';
+
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.currentPage = params['page'] ? Number.parseInt(params['page']) : 1;
       this.size = params['size'] ? Number.parseInt(params['size']) : 10;
+      this.filterText = params['text'] || '';
+      this.filterRole = params['role'] || '';
       this.loadUsers();
     });
   }
 
+  onSearch(text: string) {
+    this.updateQueryParams({ text, page: 1 });
+  }
+
+  onRoleChange(role: string) {
+    this.updateQueryParams({ role, page: 1 });
+  }
+
+  resetFilters() {
+    this.filterText = '';
+    this.filterRole = '';
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        text: null,
+        role: null,
+        page: 1
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  private updateQueryParams(newParams: any) {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: newParams,
+      queryParamsHandling: 'merge'
+    });
+  }
+
   loadUsers() {
-    this.userService.getAll<UsersResponse>(this.currentPage, this.size).subscribe({
+    this.userService.search<UsersResponse>(
+      this.currentPage,
+      this.size,
+      this.filterText,
+      this.filterRole
+    ).subscribe({
       next: (response) => {
         this.users = response.data;
         this.totalElements = response.totalElements;

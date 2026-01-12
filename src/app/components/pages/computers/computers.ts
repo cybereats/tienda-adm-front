@@ -4,16 +4,17 @@ import { CPagination } from '../../ui/c-pagination/c-pagination';
 import { CComputerCard } from '../../ui/c-computer-card/c-computer-card';
 import { CSearchBar } from '../../ui/c-search-bar/c-search-bar';
 import { CFilterSelect, FilterOption } from '../../ui/c-filter-select/c-filter-select';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CPopup } from '../../ui/c-popup/c-popup';
 import { ComputerService } from '../../../../services/computer.service';
+import { CResetFilters } from '../../ui/c-reset-filters/c-reset-filters';
 
 @Component({
   selector: 'app-computers',
   standalone: true,
-  imports: [CPagination, CComputerCard, CSearchBar, CFilterSelect, MatDialogModule, MatSnackBarModule],
+  imports: [CPagination, CComputerCard, CSearchBar, CFilterSelect, MatDialogModule, MatSnackBarModule, CResetFilters],
   templateUrl: './computers.html',
   styleUrl: './computers.scss',
 })
@@ -24,32 +25,89 @@ export class Computers implements OnInit {
   totalPages: number = 0;
   totalElements: number = 0;
 
-  categoryFilterOptions: FilterOption[] = [
-    { value: 'Gaming', label: 'Gaming' },
-    { value: 'Workstation', label: 'Workstation' },
-    { value: 'Standard', label: 'Standard' },
-    { value: 'Streaming', label: 'Streaming' },
-    { value: 'Office', label: 'Office' }
-  ];
+
+  categoryFilterOptions: FilterOption[] = [];
 
   size: number = 10;
   currentPage: number = 1;
 
+  filterText: string = '';
+  filterCategory: string = '';
+  categories: string[] = [];
+
   constructor(
     private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
     public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
+    // Load categories once on initialization
+    this.loadCategories();
+
     this.activatedRoute.queryParams.subscribe(params => {
       this.currentPage = params['page'] ? Number.parseInt(params['page']) : 1;
       this.size = params['size'] ? Number.parseInt(params['size']) : 10;
+      this.filterText = params['text'] || '';
+      this.filterCategory = params['category'] || '';
       this.loadComputers();
     });
   }
 
+  loadCategories(): void {
+    this.computerService.getAllCategories().subscribe({
+      next: (data) => {
+        this.categories = data.map(c => c.label);
+        this.categoryFilterOptions = data.map(c => ({
+          value: c.label,
+          label: c.label
+        }));
+        console.log('Categories loaded:', this.categories);
+        console.log('Category filter options:', this.categoryFilterOptions);
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
+      }
+    });
+  }
+
+  onSearch(text: string) {
+    this.updateQueryParams({ text, page: 1 });
+  }
+
+  onCategoryChange(category: string) {
+    this.updateQueryParams({ category, page: 1 });
+  }
+
+  resetFilters() {
+    this.filterText = '';
+    this.filterCategory = '';
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        text: null,
+        category: null,
+        page: 1
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  private updateQueryParams(newParams: any) {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: newParams,
+      queryParamsHandling: 'merge'
+    });
+  }
+
   loadComputers(): void {
-    this.computerService.getAll<ComputerResponse>(this.currentPage, this.size).subscribe({
+    this.computerService.search<ComputerResponse>(
+      this.currentPage,
+      this.size,
+      this.filterText,
+      this.filterCategory
+    ).subscribe({
       next: (response: ComputerResponse) => {
         this.computers = response.data;
         this.totalPages = Math.ceil(response.totalElements / this.size);
@@ -88,8 +146,11 @@ export class Computers implements OnInit {
       data: {
         mode: 'create',
         data: dialogData,
-        title: 'Computero',
-        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime']
+        title: 'Computer',
+        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
+        fieldOptions: {
+          categoryName: this.categories
+        }
       }
     });
 
@@ -158,8 +219,11 @@ export class Computers implements OnInit {
       data: {
         mode: 'edit',
         data: dialogData,
-        title: 'Computero',
-        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime']
+        title: 'Computer',
+        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
+        fieldOptions: {
+          categoryName: this.categories
+        }
       }
     });
 
@@ -201,8 +265,11 @@ export class Computers implements OnInit {
       width: '400px',
       data: {
         mode: 'delete',
-        data: computer,
-        title: 'Computero'
+        data: {
+          ...computer,
+          categoryPCResponse: computer.categoryPCResponse?.label || ''
+        },
+        title: 'Computer'
       }
     });
 

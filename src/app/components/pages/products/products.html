@@ -2,9 +2,17 @@
   <h1 class="c-title">Productos</h1>
 
   <div class="products__controls l-flex l-flex__align-center">
-    <c-search-bar class="l-flex__flex-1" placeholder="Buscar por nombre, ID..."></c-search-bar>
+    <c-search-bar class="l-flex__flex-1" placeholder="Buscar por nombre, ID..." [value]="filterText"
+      (search)="onSearch($event)"></c-search-bar>
 
     <div class="products__filters l-flex">
+      <c-filter-select placeholder="Todas las categorías" [options]="categoryFilterOptions" [value]="filterCategory"
+        (valueChange)="onCategoryChange($event)">
+      </c-filter-select>
+
+      <c-reset-filters [disabled]="!filterText && !filterCategory" (reset)="resetFilters()">
+      </c-reset-filters>
+
       <button class="products__btn products__btn--add" (click)="openCreateDialog()">
         Añadir Producto
       </button>

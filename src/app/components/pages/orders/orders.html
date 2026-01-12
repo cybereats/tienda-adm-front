@@ -2,13 +2,18 @@
     <h1 class="c-title">Pedidos</h1>
 
     <div class="orders__controls l-flex l-flex__align-center">
-        <c-search-bar class="l-flex__flex-1" placeholder="Buscar por nombre, ID..."></c-search-bar>
+        <c-search-bar class="l-flex__flex-1" placeholder="Buscar por nombre, ID..." [value]="filterText"
+            (search)="onSearch($event)"></c-search-bar>
 
         <div class="orders__filters l-flex">
-            <c-filter-select placeholder="Todos los estados" [options]="statusFilterOptions">
+            <c-filter-select placeholder="Todos los estados" [options]="statusFilterOptions" [value]="filterStatus"
+                (valueChange)="onStatusChange($event)">
             </c-filter-select>
 
-            <input type="date" class="orders__date-input">
+            <input type="date" class="orders__date-input" [value]="filterDate" (change)="onDateChange($event)">
+
+            <c-reset-filters [disabled]="!filterText && !filterStatus && !filterDate" (reset)="resetFilters()">
+            </c-reset-filters>
         </div>
     </div>
 

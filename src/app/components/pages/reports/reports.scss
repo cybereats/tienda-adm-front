@@ -117,16 +117,6 @@
             background-color: var(--reports-btn-hover-bg);
         }
 
-        &--view {
-            background-color: transparent;
-            border: 1px solid var(--reports-btn-bg);
-            color: var(--reports-btn-bg);
-
-            &:hover {
-                background-color: var(--reports-btn-bg);
-                color: var(--reports-btn-color);
-            }
-        }
     }
 
     @media (max-width: 768px) {

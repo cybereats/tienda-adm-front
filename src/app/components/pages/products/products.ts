@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product, ProductsResponse, CategoryProduct } from '../../../../models/product.model';
@@ -9,36 +9,97 @@ import { CProductCard } from '../../ui/c-product-card/c-product-card';
 import { CPagination } from '../../ui/c-pagination/c-pagination';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CPopup } from '../../ui/c-popup/c-popup';
+import { CFilterSelect, FilterOption } from '../../ui/c-filter-select/c-filter-select';
+import { CResetFilters } from '../../ui/c-reset-filters/c-reset-filters';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule, CSearchBar, CPagination, CProductCard],
+  imports: [CommonModule, FormsModule, CSearchBar, CPagination, CProductCard, CFilterSelect, CResetFilters],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
 export class Products {
   products: Product[] = [];
+  categories: string[] = [];
+  categoryFilterOptions: FilterOption[] = [];
+  filterText: string = '';
+  filterCategory: string = '';
   size: number = 10;
   currentPage: number = 1;
   totalElements: number = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private productService: ProductService,
     public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
+    this.loadCategories();
+
     this.activatedRoute.queryParams.subscribe(params => {
       this.currentPage = params['page'] ? Number.parseInt(params['page']) : 1;
       this.size = params['size'] ? Number.parseInt(params['size']) : 10;
+      this.filterText = params['text'] || '';
+      this.filterCategory = params['category'] || '';
       this.loadProducts();
     });
   }
 
+  loadCategories(): void {
+    this.productService.getAllCategories().subscribe({
+      next: (data) => {
+        this.categories = data.map(c => c.label);
+        this.categoryFilterOptions = data.map(c => ({
+          value: c.label,
+          label: c.label
+        }));
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
+      }
+    });
+  }
+
+  onSearch(text: string) {
+    this.updateQueryParams({ text, page: 1 });
+  }
+
+  onCategoryChange(category: string) {
+    this.updateQueryParams({ category, page: 1 });
+  }
+
+  resetFilters() {
+    this.filterText = '';
+    this.filterCategory = '';
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        text: null,
+        category: null,
+        page: 1
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  private updateQueryParams(newParams: any) {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: newParams,
+      queryParamsHandling: 'merge'
+    });
+  }
+
   loadProducts(): void {
-    this.productService.getAll<ProductsResponse>(this.currentPage, this.size).subscribe({
+    this.productService.search<ProductsResponse>(
+      this.currentPage,
+      this.size,
+      this.filterText,
+      this.filterCategory
+    ).subscribe({
       next: (data: ProductsResponse) => {
         this.products = data.data;
         this.totalElements = data.totalElements;
@@ -78,7 +139,10 @@ export class Products {
         mode: 'create',
         data: dialogData,
         title: 'Producto',
-        excludedFields: ['slug', 'category']
+        excludedFields: ['slug', 'category'],
+        fieldOptions: {
+          categoryName: this.categories
+        }
       }
     });
 
@@ -138,7 +202,10 @@ export class Products {
         mode: 'edit',
         data: dialogData,
         title: 'Producto',
-        excludedFields: ['slug', 'category']
+        excludedFields: ['slug', 'category'],
+        fieldOptions: {
+          categoryName: this.categories
+        }
       }
     });
 
@@ -181,7 +248,10 @@ export class Products {
       width: '400px',
       data: {
         mode: 'delete',
-        data: product,
+        data: {
+          ...product,
+          category: product.category?.label || ''
+        },
         title: 'Producto'
       }
     });

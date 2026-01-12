@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'c-search-bar',
@@ -9,4 +9,10 @@ import { Component, Input } from '@angular/core';
 })
 export class CSearchBar {
     @Input() placeholder: string = 'Buscar...';
+    @Input() value: string = '';
+    @Output() search = new EventEmitter<string>();
+
+    onSearch(value: string) {
+        this.search.emit(value);
+    }
 }

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { CStatus } from '../../ui/c-status/c-status';
 import { CPagination } from '../../ui/c-pagination/c-pagination';
 import { CSummaryCard } from '../../ui/c-summary-card/c-summary-card';
@@ -8,12 +8,14 @@ import { CFilterSelect, FilterOption } from '../../ui/c-filter-select/c-filter-s
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../../services/report.service';
-import { Report, ReportResponse } from '../../../../models/report.model';
+import type { Report, ReportResponse, ReportStats } from '../../../../models/report.model';
+
+import { CResetFilters } from '../../ui/c-reset-filters/c-reset-filters';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [RouterLink, FormsModule, CommonModule, CStatus, CPagination, CSummaryCard, CSearchBar, CFilterSelect],
+  imports: [RouterLink, FormsModule, CommonModule, CStatus, CPagination, CSummaryCard, CSearchBar, CFilterSelect, CResetFilters],
   templateUrl: './reports.html',
   styleUrl: './reports.scss',
 })
@@ -42,9 +44,9 @@ export class Reports {
   };
 
   statusFilterOptions: FilterOption[] = [
-    { value: 'pending', label: 'Pendiente' },
-    { value: 'in-progress', label: 'En Proceso' },
-    { value: 'resolved', label: 'Resuelto' }
+    { value: 'PENDING', label: 'Pendiente' },
+    { value: 'IN_PROGRESS', label: 'En Proceso' },
+    { value: 'RESOLVED', label: 'Resuelto' }
   ];
 
   statusOptions = [
@@ -56,25 +58,75 @@ export class Reports {
   size: number = 10;
   currentPage: number = 1;
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  filterText: string = '';
+  filterStatus: string = '';
+  filterDate: string = '';
+
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.currentPage = params['page'] ? parseInt(params['page']) : 1;
       this.size = params['size'] ? parseInt(params['size']) : 10;
+      this.filterText = params['text'] || '';
+      this.filterStatus = params['status'] || '';
+      this.filterDate = params['date'] || '';
+
       this.loadReports();
+      this.loadStats();
     });
-
-
   }
 
+  onSearch(text: string) {
+    this.updateQueryParams({ text, page: 1 });
+  }
+
+  onStatusChange(status: string) {
+    this.updateQueryParams({ status, page: 1 });
+  }
+
+  onDateChange(event: Event) {
+    const date = (event.target as HTMLInputElement).value;
+    this.updateQueryParams({ date, page: 1 });
+  }
+
+  private updateQueryParams(newParams: any) {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: newParams,
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  resetFilters() {
+    this.filterText = '';
+    this.filterStatus = '';
+    this.filterDate = '';
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        text: null,
+        status: null,
+        date: null,
+        page: 1
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+
   loadReports() {
-    this.reportService.getAll<ReportResponse>(this.currentPage, this.size).subscribe({
+    this.reportService.search<ReportResponse>(
+      this.currentPage,
+      this.size,
+      this.filterText,
+      this.filterStatus,
+      this.filterDate
+    ).subscribe({
       next: (response) => {
         this.reports = response.data;
         this.totalPages = Math.ceil(response.totalElements / this.size);
         this.totalElements = response.totalElements;
-        this.calculateStats();
         console.log(this.reports);
       },
       error: (error) => {
@@ -83,11 +135,18 @@ export class Reports {
     });
   }
 
-  calculateStats() {
-    this.stats.total = this.reports.length;
-    this.stats.pending = this.reports.filter(r => r.status === 'PENDING').length;
-    this.stats.inProgress = this.reports.filter(r => r.status === 'IN_PROGRESS').length;
-    this.stats.resolved = this.reports.filter(r => r.status === 'RESOLVED').length;
+  loadStats() {
+    this.reportService.getStatusCount().subscribe({
+      next: (stats) => {
+        this.stats.pending = stats.PENDING;
+        this.stats.inProgress = stats.IN_PROGRESS;
+        this.stats.resolved = stats.RESOLVED;
+        this.stats.total = this.stats.pending + this.stats.inProgress + this.stats.resolved;
+      },
+      error: (error) => {
+        console.error('Error al cargar las estadísticas:', error);
+      }
+    });
   }
 
   updateReportStatus(report: Report, newStatus: string) {
@@ -95,7 +154,7 @@ export class Reports {
     this.reportService.put<Report>(report.id.toString(), updatedReport).subscribe({
       next: (response) => {
         report.status = newStatus;
-        this.calculateStats();
+        this.loadStats();
         console.log('Report status updated successfully:', response);
       },
       error: (error) => {
