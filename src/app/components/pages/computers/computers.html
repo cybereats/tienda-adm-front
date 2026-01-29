@@ -17,40 +17,12 @@
         </button>
     </div>
 
-    <table class="table">
-        <thead>
-            <tr class="table__row table__row--header">
-                <th class="table__header-cell">ID</th>
-                <th class="table__header-cell">Nombre</th>
-                <th class="table__header-cell">Categoría</th>
-                <th class="table__header-cell">Estado</th>
-                <th class="table__header-cell">Desde</th>
-                <th class="table__header-cell">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (computer of computers; track computer.id) {
-            <tr class="table__row">
-                <td class="table__cell">{{ computer.id }}</td>
-                <td class="table__cell">{{ computer.label }}</td>
-                <td class="table__cell">{{ computer.categoryPCResponse?.label }}</td>
-                <td class="table__cell">
-                    <c-status [status]="computer.status" (statusChange)="updateComputerStatus(computer, $event)"
-                        [options]="statusOptions"></c-status>
-                </td>
-                <td class="table__cell">{{ computer.workingSince }}</td>
-                <td class="table__cell">
-                    <button class="computers__btn computers__btn--edit" (click)="openEditDialog(computer)">
-                        Editar
-                    </button>
-                    <button class="computers__btn computers__btn--delete" (click)="openDeleteDialog(computer)">
-                        Eliminar
-                    </button>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+    <div class="computers__grid">
+        @for (computer of computers; track computer.id) {
+        <c-computer-card [computer]="computer" [statusOptions]="statusOptions" (edit)="openEditDialog(computer)"
+            (delete)="openDeleteDialog(computer)" (statusChange)="updateComputerStatus($event)"></c-computer-card>
+        }
+    </div>
 
     <c-pagination [currentPage]="currentPage" [totalPages]="totalPages" [size]="size" route="/admin/computers">
     </c-pagination>

@@ -10,12 +10,11 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CPopup } from '../../ui/c-popup/c-popup';
 import { ComputerService } from '../../../../services/computer.service';
 import { CResetFilters } from '../../ui/c-reset-filters/c-reset-filters';
-import { CStatus } from '../../ui/c-status/c-status';
 
 @Component({
   selector: 'app-computers',
   standalone: true,
-  imports: [CPagination, CComputerCard, CSearchBar, CFilterSelect, MatDialogModule, MatSnackBarModule, CResetFilters, CStatus],
+  imports: [CPagination, CComputerCard, CSearchBar, CFilterSelect, MatDialogModule, MatSnackBarModule, CResetFilters],
   templateUrl: './computers.html',
   styleUrl: './computers.scss',
 })
@@ -28,13 +27,13 @@ export class Computers implements OnInit {
 
 
   categoryFilterOptions: FilterOption[] = [];
+
   size: number = 10;
   currentPage: number = 1;
 
   filterText: string = '';
   filterCategory: string = '';
   categories: string[] = [];
-
   statusOptions = [
     { value: 'AVAILABLE', label: 'Disponible', color: 'green' },
     { value: 'OCCUPIED', label: 'Ocupado', color: 'red' },
@@ -154,9 +153,10 @@ export class Computers implements OnInit {
         mode: 'create',
         data: dialogData,
         title: 'Computer',
-        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime', 'status'],
+        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
         fieldOptions: {
-          categoryName: this.categories
+          categoryName: this.categories,
+          status: this.statusOptions.map(o => o.value)
         }
       }
     });
@@ -227,9 +227,10 @@ export class Computers implements OnInit {
         mode: 'edit',
         data: dialogData,
         title: 'Computer',
-        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime', 'status'],
+        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
         fieldOptions: {
-          categoryName: this.categories
+          categoryName: this.categories,
+          status: this.statusOptions.map(o => o.value)
         }
       }
     });
@@ -298,11 +299,12 @@ export class Computers implements OnInit {
     });
   }
 
-  updateComputerStatus(computer: Computer, newStatus: string) {
-    const updatedComputer = { ...computer, status: newStatus };
+  updateComputerStatus(event: { computer: Computer, status: string }) {
+    const { computer, status } = event;
+    const updatedComputer = { ...computer, status: status };
     this.computerService.put<Computer>(computer.slug, updatedComputer).subscribe({
       next: (response) => {
-        computer.status = newStatus;
+        computer.status = status;
         console.log('Computer status updated successfully:', response);
       },
       error: (error) => {

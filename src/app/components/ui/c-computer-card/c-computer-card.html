@@ -12,6 +12,11 @@
                 <span class="c-computer-card__label">Categoría:</span>
                 <span class="c-computer-card__value c-body--primary">{{ computer.categoryPCResponse?.label }}</span>
             </div>
+            <div class="c-body c-body--small l-flex l-flex__justify-space-between l-flex__align-center">
+                <span class="c-computer-card__label">Estado:</span>
+                <c-status [status]="computer.status" [options]="statusOptions"
+                    (statusChange)="onStatusChange($event)"></c-status>
+            </div>
             <div class="c-computer-card__detail c-body c-body--small l-flex l-flex__justify-space-between">
                 <span class="c-computer-card__label">Operativo desde:</span>
                 <span class="c-computer-card__value c-body--primary">{{ computer.workingSince }}</span>
