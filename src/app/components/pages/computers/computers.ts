@@ -10,11 +10,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CPopup } from '../../ui/c-popup/c-popup';
 import { ComputerService } from '../../../../services/computer.service';
 import { CResetFilters } from '../../ui/c-reset-filters/c-reset-filters';
+import { CStatus } from '../../ui/c-status/c-status';
 
 @Component({
   selector: 'app-computers',
   standalone: true,
-  imports: [CPagination, CComputerCard, CSearchBar, CFilterSelect, MatDialogModule, MatSnackBarModule, CResetFilters],
+  imports: [CPagination, CComputerCard, CSearchBar, CFilterSelect, MatDialogModule, MatSnackBarModule, CResetFilters, CStatus],
   templateUrl: './computers.html',
   styleUrl: './computers.scss',
 })
@@ -27,13 +28,18 @@ export class Computers implements OnInit {
 
 
   categoryFilterOptions: FilterOption[] = [];
-
   size: number = 10;
   currentPage: number = 1;
 
   filterText: string = '';
   filterCategory: string = '';
   categories: string[] = [];
+
+  statusOptions = [
+    { value: 'AVAILABLE', label: 'Disponible', color: 'green' },
+    { value: 'OCCUPIED', label: 'Ocupado', color: 'red' },
+    { value: 'MAINTENANCE', label: 'Mantenimiento', color: 'gray' }
+  ];
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -129,6 +135,7 @@ export class Computers implements OnInit {
       specs: '',
       workingSince: new Date().toLocaleDateString(),
       image: '',
+      status: 'AVAILABLE',
       // Default empty category, user will provide name
       categoryPCResponse: { id: 0, label: '', slug: '' }
     };
@@ -147,7 +154,7 @@ export class Computers implements OnInit {
         mode: 'create',
         data: dialogData,
         title: 'Computer',
-        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
+        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime', 'status'],
         fieldOptions: {
           categoryName: this.categories
         }
@@ -220,7 +227,7 @@ export class Computers implements OnInit {
         mode: 'edit',
         data: dialogData,
         title: 'Computer',
-        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
+        excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime', 'status'],
         fieldOptions: {
           categoryName: this.categories
         }
@@ -287,6 +294,19 @@ export class Computers implements OnInit {
             console.error('Error deleting computer:', error);
           }
         });
+      }
+    });
+  }
+
+  updateComputerStatus(computer: Computer, newStatus: string) {
+    const updatedComputer = { ...computer, status: newStatus };
+    this.computerService.put<Computer>(computer.slug, updatedComputer).subscribe({
+      next: (response) => {
+        computer.status = newStatus;
+        console.log('Computer status updated successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error updating computer status:', error);
       }
     });
   }

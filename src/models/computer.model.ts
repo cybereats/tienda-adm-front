@@ -6,6 +6,7 @@ export interface Computer {
     specs: string;
     workingSince: string;
     image: string;
+    status: string;
     categoryPCResponse: CategoryPC;
 }
 
