@@ -34,7 +34,11 @@ export class Computers implements OnInit {
   filterText: string = '';
   filterCategory: string = '';
   categories: string[] = [];
-  pcStatusOptions: PCStatus[] = ['AVAILABLE', 'OCCUPIED', 'MAINTENANCE'];
+  pcStatusOptions: { value: PCStatus, label: string, color: string }[] = [
+    { value: 'AVAILABLE', label: 'Disponible', color: 'green' },
+    { value: 'OCCUPIED', label: 'Ocupado', color: 'red' },
+    { value: 'MAINTENANCE', label: 'Mantenimiento', color: 'gray' }
+  ];
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -152,7 +156,7 @@ export class Computers implements OnInit {
         excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
         fieldOptions: {
           categoryName: this.categories,
-          status: this.pcStatusOptions
+          status: this.pcStatusOptions.map(o => o.value)
         }
       }
     });
@@ -226,7 +230,7 @@ export class Computers implements OnInit {
         excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
         fieldOptions: {
           categoryName: this.categories,
-          status: this.pcStatusOptions
+          status: this.pcStatusOptions.map(o => o.value)
         }
       }
     });
@@ -303,7 +307,7 @@ export class Computers implements OnInit {
     });
   }
 
-  updateComputerStatus(event: { computer: Computer, status: string }) {
+  updateComputerStatus(event: { computer: Computer, status: PCStatus }) {
     const { computer, status } = event;
     const updatedComputer = { ...computer, status: status };
     this.computerService.put<Computer>(computer.slug, updatedComputer).subscribe({

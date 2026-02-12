@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Computer } from '../../../../models/computer.model';
+import { Computer, PCStatus } from '../../../../models/computer.model';
 import { CStatus } from '../c-status/c-status';
 
 @Component({
@@ -11,10 +11,10 @@ import { CStatus } from '../c-status/c-status';
 })
 export class CComputerCard {
     @Input() computer!: Computer;
-    @Input() statusOptions: { value: string, label: string, color: string }[] = [];
+    @Input() statusOptions: { value: PCStatus, label: string, color: string }[] = [];
     @Output() edit = new EventEmitter<Computer>();
     @Output() delete = new EventEmitter<Computer>();
-    @Output() statusChange = new EventEmitter<{ computer: Computer, status: string }>();
+    @Output() statusChange = new EventEmitter<{ computer: Computer, status: PCStatus }>();
 
 
     onEdit(): void {
@@ -26,6 +26,6 @@ export class CComputerCard {
     }
 
     onStatusChange(newStatus: string): void {
-        this.statusChange.emit({ computer: this.computer, status: newStatus });
+        this.statusChange.emit({ computer: this.computer, status: newStatus as PCStatus });
     }
 }

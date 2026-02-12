@@ -19,7 +19,7 @@
 
     <div class="computers__grid">
         @for (computer of computers; track computer.id) {
-        <c-computer-card [computer]="computer" [statusOptions]="statusOptions" (edit)="openEditDialog(computer)"
+        <c-computer-card [computer]="computer" [statusOptions]="pcStatusOptions" (edit)="openEditDialog(computer)"
             (delete)="openDeleteDialog(computer)" (statusChange)="updateComputerStatus($event)"></c-computer-card>
         }
     </div>
