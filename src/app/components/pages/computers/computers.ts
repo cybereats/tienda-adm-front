@@ -152,11 +152,7 @@ export class Computers implements OnInit {
         excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
         fieldOptions: {
           categoryName: this.categories,
-<<<<<<< HEAD
-          status: this.statusOptions.map(o => o.value)
-=======
           status: this.pcStatusOptions
->>>>>>> ismael_65
         }
       }
     });
@@ -230,11 +226,7 @@ export class Computers implements OnInit {
         excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
         fieldOptions: {
           categoryName: this.categories,
-<<<<<<< HEAD
-          status: this.statusOptions.map(o => o.value)
-=======
           status: this.pcStatusOptions
->>>>>>> ismael_65
         }
       }
     });
