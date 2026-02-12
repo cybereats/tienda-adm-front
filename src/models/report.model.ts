@@ -3,7 +3,7 @@ import { User } from "./user.model";
 
 export interface Report {
     id: number;
-    priority: string;
+    priority: number;
     description: string;
     subject: string;
     user: User;
@@ -21,7 +21,8 @@ export interface ReportResponse {
 }
 
 export interface ReportStats {
+    OPEN: number;
+    PENDING: number;
     IN_PROGRESS: number;
     RESOLVED: number;
-    PENDING: number;
 }

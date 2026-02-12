@@ -6,9 +6,11 @@ export interface Computer {
     specs: string;
     workingSince: string;
     image: string;
-    status: string;
+    status: PCStatus;
     categoryPCResponse: CategoryPC;
 }
+
+export type PCStatus = 'OCCUPIED' | 'MAINTENANCE' | 'AVAILABLE';
 
 export interface ComputerResponse {
     data: Computer[];

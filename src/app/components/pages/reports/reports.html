@@ -33,6 +33,7 @@
                 <th class="table__header-cell">Usuario</th>
                 <th class="table__header-cell">PC</th>
                 <th class="table__header-cell">Asunto</th>
+                <th class="table__header-cell">Prioridad</th>
                 <th class="table__header-cell">Estado</th>
                 <th class="table__header-cell">Fecha</th>
             </tr>
@@ -45,7 +46,8 @@
                 </td>
                 <td class="table__cell">{{ report.user.name }}</td>
                 <td class="table__cell">{{ report.pc.label }}</td>
-                <td class="table__cell">{{ report.description }}</td>
+                <td class="table__cell table__cell--subject">{{ report.subject }}</td>
+                <td class="table__cell">{{ report.priority }}</td>
                 <td class="table__cell">
                     <c-status [status]="report.status" (statusChange)="updateReportStatus(report, $event)"
                         [options]="statusOptions"></c-status>

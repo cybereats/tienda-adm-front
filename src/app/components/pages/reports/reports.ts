@@ -44,12 +44,14 @@ export class Reports {
   };
 
   statusFilterOptions: FilterOption[] = [
+    { value: 'OPEN', label: 'Abierto' },
     { value: 'PENDING', label: 'Pendiente' },
     { value: 'IN_PROGRESS', label: 'En Proceso' },
     { value: 'RESOLVED', label: 'Resuelto' }
   ];
 
   statusOptions = [
+    { value: 'OPEN', label: 'Abierto', color: 'gray' },
     { value: 'PENDING', label: 'Pendiente', color: 'orange' },
     { value: 'IN_PROGRESS', label: 'En Proceso', color: 'blue' },
     { value: 'RESOLVED', label: 'Resuelto', color: 'green' }
@@ -138,10 +140,11 @@ export class Reports {
   loadStats() {
     this.reportService.getStatusCount().subscribe({
       next: (stats) => {
-        this.stats.pending = stats.PENDING;
-        this.stats.inProgress = stats.IN_PROGRESS;
-        this.stats.resolved = stats.RESOLVED;
-        this.stats.total = this.stats.pending + this.stats.inProgress + this.stats.resolved;
+        this.stats.pending = stats.PENDING || 0;
+        this.stats.inProgress = stats.IN_PROGRESS || 0;
+        this.stats.resolved = stats.RESOLVED || 0;
+        const open = stats.OPEN || 0;
+        this.stats.total = this.stats.pending + this.stats.inProgress + this.stats.resolved + open;
       },
       error: (error) => {
         console.error('Error al cargar las estadísticas:', error);
@@ -150,8 +153,19 @@ export class Reports {
   }
 
   updateReportStatus(report: Report, newStatus: string) {
-    const updatedReport = { ...report, status: newStatus };
-    this.reportService.put<Report>(report.id.toString(), updatedReport).subscribe({
+    // Create the correct request format expected by the backend
+    const updatedReport = {
+      id: report.id,
+      userId: report.user.id,
+      pcId: report.pc.id,
+      description: report.description,
+      subject: report.subject,
+      status: newStatus,
+      createdAt: report.createdAt,
+      priority: report.priority
+    };
+
+    this.reportService.put<any>(report.id.toString(), updatedReport).subscribe({
       next: (response) => {
         report.status = newStatus;
         this.loadStats();

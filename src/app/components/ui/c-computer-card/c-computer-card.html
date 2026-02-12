@@ -10,7 +10,7 @@
         <div class="c-computer-card__details l-flex l-flex__direction-column l-flex__gap-2">
             <div class="c-body c-body--small l-flex l-flex__justify-space-between">
                 <span class="c-computer-card__label">Categoría:</span>
-                <span class="c-computer-card__value c-body--primary">{{ computer.categoryPCResponse?.label }}</span>
+                <span class="c-computer-card__value c-body--primary">{{ computer.categoryPCResponse.label }}</span>
             </div>
             <div class="c-body c-body--small l-flex l-flex__justify-space-between l-flex__align-center">
                 <span class="c-computer-card__label">Estado:</span>
@@ -20,6 +20,10 @@
             <div class="c-computer-card__detail c-body c-body--small l-flex l-flex__justify-space-between">
                 <span class="c-computer-card__label">Operativo desde:</span>
                 <span class="c-computer-card__value c-body--primary">{{ computer.workingSince }}</span>
+            </div>
+            <div class="c-computer-card__detail c-body c-body--small l-flex l-flex__justify-space-between">
+                <span class="c-computer-card__label">Estado:</span>
+                <span class="c-computer-card__value c-body--primary">{{ computer.status }}</span>
             </div>
         </div>
 

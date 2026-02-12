@@ -119,6 +119,13 @@
 
     }
 
+    .table__cell--subject {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     @media (max-width: 768px) {
         &__controls {
             flex-direction: column;

@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Computer, ComputerResponse } from '../../../../models/computer.model';
+import { Computer, ComputerResponse, PCStatus } from '../../../../models/computer.model';
 import { CPagination } from '../../ui/c-pagination/c-pagination';
 import { CComputerCard } from '../../ui/c-computer-card/c-computer-card';
 import { CSearchBar } from '../../ui/c-search-bar/c-search-bar';
@@ -34,11 +34,7 @@ export class Computers implements OnInit {
   filterText: string = '';
   filterCategory: string = '';
   categories: string[] = [];
-  statusOptions = [
-    { value: 'AVAILABLE', label: 'Disponible', color: 'green' },
-    { value: 'OCCUPIED', label: 'Ocupado', color: 'red' },
-    { value: 'MAINTENANCE', label: 'Mantenimiento', color: 'gray' }
-  ];
+  pcStatusOptions: PCStatus[] = ['AVAILABLE', 'OCCUPIED', 'MAINTENANCE'];
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -156,7 +152,11 @@ export class Computers implements OnInit {
         excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
         fieldOptions: {
           categoryName: this.categories,
+<<<<<<< HEAD
           status: this.statusOptions.map(o => o.value)
+=======
+          status: this.pcStatusOptions
+>>>>>>> ismael_65
         }
       }
     });
@@ -230,7 +230,11 @@ export class Computers implements OnInit {
         excludedFields: ['slug', 'categoryPCResponse', 'workingSince', 'runtime'],
         fieldOptions: {
           categoryName: this.categories,
+<<<<<<< HEAD
           status: this.statusOptions.map(o => o.value)
+=======
+          status: this.pcStatusOptions
+>>>>>>> ismael_65
         }
       }
     });
@@ -246,12 +250,20 @@ export class Computers implements OnInit {
             const updatedComputer = {
               ...computer,
               ...result,
+              slug: computer.slug, // Mantener slug original para evitar 400 Bad Request
               categoryPCRequest: fetchedCategory
             };
 
+            // Eliminar campos internos/redundantes
+            delete (updatedComputer as any).categoryPCResponse;
+            delete (updatedComputer as any).categoryPC;
+            delete (updatedComputer as any).categoryName;
+
+            console.log('Final object to PUT:', updatedComputer);
+
             this.computerService.put<Computer>(computer.slug, updatedComputer).subscribe({
-              next: (updatedComputer) => {
-                console.log('Computer updated:', updatedComputer);
+              next: (response) => {
+                console.log('Response from Backend:', response);
                 this.loadComputers();
               },
               error: (error) => {
